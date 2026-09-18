@@ -1,0 +1,167 @@
+---
+import type { Airport } from '../data/airports';
+
+interface Props {
+  airport: Airport;
+  isPrimary?: boolean;
+  recommendationTag?: string;
+  recommendationNote?: string;
+}
+
+const {
+  airport,
+  isPrimary = false,
+  recommendationTag = '本站推荐',
+  recommendationNote
+} = Astro.props;
+
+// 1. Price Display (Strictly from real field lowestDirectMonthlyPriceCny, no hardcoding)
+const priceDisplay = airport.lowestDirectMonthlyPriceCny !== null && airport.lowestDirectMonthlyPriceCny !== undefined
+  ? `¥${airport.lowestDirectMonthlyPriceCny} / 月起`
+  : (airport.lowestListedAnnualPriceCny ? `¥${airport.lowestListedAnnualPriceCny} / 年起` : '详见套餐明细');
+
+// 2. Build Up to 3 Real Feature Chips (NO FABRICATED FALLBACKS)
+interface FeatureChip {
+  label: string;
+  value: string;
+}
+const chips: FeatureChip[] = [];
+
+// Chip 1: Line Architecture (Only if real data exists)
+if (airport.lineArchitecture && airport.lineArchitecture.trim()) {
+  let lineText = '';
+  const lowerLine = airport.lineArchitecture.toLowerCase();
+  if (lowerLine.includes('iepl') && lowerLine.includes('iplc')) {
+    lineText = 'IEPL / IPLC 专线';
+  } else if (lowerLine.includes('iepl')) {
+    lineText = 'IEPL 专线网络';
+  } else if (lowerLine.includes('iplc')) {
+    lineText = 'IPLC 专线网络';
+  } else if (lowerLine.includes('bgp')) {
+    lineText = 'BGP 隧道网络';
+  } else {
+    lineText = airport.lineArchitecture.slice(0, 16);
+  }
+  chips.push({ label: '线路架构', value: lineText });
+}
+
+// Chip 2: Client / Protocol (Only if real data exists)
+if (airport.clientSupport && airport.clientSupport.trim()) {
+  let clientText = airport.clientSupport
+    .replace(/^支持通用订阅[（(]?/, '')
+    .replace(/[）)]?$/, '')
+    .trim();
+  if (clientText.length > 20) {
+    clientText = clientText.slice(0, 18) + '...';
+  }
+  chips.push({ label: '客户端支持', value: clientText });
+} else if (airport.protocols && airport.protocols.trim()) {
+  chips.push({ label: '协议支持', value: airport.protocols.slice(0, 18) });
+}
+
+// Chip 3: AI / Streaming (Only if real data exists)
+if (chips.length < 3) {
+  if (airport.aiServicesMentioned && airport.streamingServicesMentioned) {
+    chips.push({ label: '场景支持', value: '资料提及 AI 与流媒体' });
+  } else if (airport.aiServicesMentioned) {
+    chips.push({ label: '场景支持', value: '资料提及 AI 访问' });
+  } else if (airport.streamingServicesMentioned) {
+    chips.push({ label: '场景支持', value: '资料提及流媒体支持' });
+  } else if (airport.deviceOrUsageLimits && airport.deviceOrUsageLimits.trim()) {
+    chips.push({ label: '连接规则', value: airport.deviceOrUsageLimits.slice(0, 16) });
+  }
+}
+
+// Limit strictly to max 3 chips
+const featureChips = chips.slice(0, 3);
+
+// Recommendation Note: Factual use-case description without repeating chips, without "最" or unverified claims
+let scenarioText = recommendationNote;
+if (!scenarioText) {
+  if (airport.clientSupport && airport.clientSupport.includes('Clash')) {
+    scenarioText = '适合需要使用主流客户端订阅、偏好直接查阅公开套餐资料的个人用户。';
+  } else {
+    scenarioText = '适合结合自身本地网络环境进行单月测试、按需选购网络加速服务的用户。';
+  }
+}
+---
+
+<article
+  class={`relative bg-white border ${
+    isPrimary ? 'border-2 border-[#b45309] shadow-md p-4 sm:p-5' : 'border-[#d6d1c7] shadow-sm p-4'
+  } flex flex-col justify-between transition-all hover:border-[#b45309]`}
+>
+  <!-- Top Label Bar -->
+  <div class="flex items-center justify-between gap-2 mb-2.5 pb-2 border-b border-stone-200">
+    <div class="flex items-center gap-1.5">
+      <span
+        class={`px-2 py-0.5 text-[11px] font-serif font-bold uppercase tracking-wider ${
+          isPrimary ? 'bg-[#b45309] text-white' : 'bg-[#efece4] text-stone-800'
+        }`}
+      >
+        {recommendationTag}
+      </span>
+      {airport.aliases && (
+        <span class="text-xs font-mono text-stone-500">
+          {airport.aliases}
+        </span>
+      )}
+    </div>
+    <div class="text-right">
+      <span class="text-[10px] font-mono text-stone-500 block">公开套餐起价</span>
+      <div class="text-base sm:text-lg font-bold font-serif text-[#b45309] leading-none">
+        {priceDisplay}
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Info -->
+  <div class="mb-3">
+    <h3 class="text-lg sm:text-xl font-bold font-serif text-[#1a1816] tracking-tight mb-1.5">
+      <a href={`/airport/${airport.slug}/`} class="hover:text-[#b45309] transition-colors">
+        {airport.serviceName}
+      </a>
+    </h3>
+
+    <!-- Up to 3 Key Real Attributes (Dynamic & Factual) -->
+    {featureChips.length > 0 && (
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 py-2 my-2 bg-[#faf8f5] border border-[#e7e3da] px-2.5 text-xs">
+        {featureChips.map(chip => (
+          <div>
+            <span class="text-stone-500 block text-[10px] font-mono">{chip.label}</span>
+            <strong class="text-stone-800 font-serif font-medium truncate block" title={chip.value}>{chip.value}</strong>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Scenario / Why Recommend (Concise, no repeating chips) -->
+    <p class="text-xs text-stone-600 font-serif leading-relaxed mt-1.5">
+      {scenarioText}
+    </p>
+  </div>
+
+  <!-- Bottom Actions -->
+  <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between gap-2">
+    <div class="text-[10px] text-stone-400 font-mono">
+      <span>服务商公开资料</span>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <a
+        href={`/airport/${airport.slug}/`}
+        class="px-2.5 py-1.5 border border-[#d6d1c7] bg-white text-stone-800 hover:bg-[#efece4] text-xs font-serif font-bold transition-colors"
+      >
+        查看详细资料
+      </a>
+      <a
+        href={`/go/${airport.slug}`}
+        target="_blank"
+        rel="sponsored nofollow noopener noreferrer"
+        class="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 bg-[#1a1816] text-white hover:bg-[#b45309] text-xs font-serif font-bold transition-colors shadow-sm"
+      >
+        <span>访问服务商</span>
+        <span>&rarr;</span>
+      </a>
+    </div>
+  </div>
+</article>

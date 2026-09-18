@@ -1,0 +1,73 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '' } = Astro.props;
+
+const navItems = [
+  { label: '首页', href: '/' },
+  { label: '机场推荐', href: '/#recommended-airports' },
+  { label: '机场库', href: '/airports/' },
+  { label: '使用教程', href: '/blog/' },
+  { label: '选机场指南', href: '/blog/how-to-choose-airport/' },
+];
+---
+
+<header class="w-full bg-[#efece4] border-b border-[#d6d1c7] select-none">
+  <!-- Compact Masthead / 紧凑型报头 -->
+  <div class="gazette-container py-3 sm:py-4">
+    <div class="flex items-center justify-between gap-3 border-b-2 border-[#1a1816] pb-3">
+      <!-- Brand & Tagline / 品牌与副标题 -->
+      <div>
+        <a href="/" class="group flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+          <span class="text-2xl sm:text-3xl font-extrabold font-serif tracking-tight text-[#1a1816] group-hover:text-[#b45309] transition-colors">
+            机场梯子
+          </span>
+          <span class="text-xs sm:text-sm font-serif text-[#78716c] tracking-normal font-normal">
+            机场推荐 · 价格 · 节点 · 订阅指南
+          </span>
+        </a>
+      </div>
+
+      <!-- Right Action CTA / 右侧主要推荐入口 -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a
+          href="/#recommended-airports"
+          class="inline-flex items-center gap-1 px-3 sm:px-4 py-1.5 bg-[#b45309] text-white text-xs font-serif font-bold hover:bg-[#92400e] transition-colors shadow-sm whitespace-nowrap"
+        >
+          <span>查看机场推荐</span>
+          <span class="hidden sm:inline">&darr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation Deck Bar / 简洁版面导航轨 -->
+    <nav class="mt-2 flex items-center justify-between overflow-x-auto py-0.5 scrollbar-none" aria-label="全站导航">
+      <div class="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-serif font-bold whitespace-nowrap">
+        {navItems.map((item) => {
+          const isActive = item.href === '/'
+            ? currentPath === '/'
+            : currentPath.startsWith(item.href) && item.href !== '/#recommended-airports';
+          return (
+            <a
+              href={item.href}
+              class={`px-2 sm:px-2.5 py-1 transition-colors border-b-2 ${
+                isActive
+                  ? 'border-[#b45309] text-[#b45309] bg-stone-100/70 font-black'
+                  : 'border-transparent text-[#1a1816] hover:text-[#b45309] hover:border-stone-400'
+              }`}
+            >
+              {item.label}
+            </a>
+          );
+        })}
+      </div>
+      <div class="hidden md:flex items-center text-[11px] font-mono text-[#78716c] whitespace-nowrap pl-4">
+        <span>全库检索</span>
+        <span class="mx-1">/</span>
+        <a href="/airports/" class="text-[#b45309] hover:underline font-bold">全部机场资料 &rarr;</a>
+      </div>
+    </nav>
+  </div>
+</header>

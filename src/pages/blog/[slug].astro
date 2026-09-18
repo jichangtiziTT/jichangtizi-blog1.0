@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import ContextualRecommendation from '../../components/ContextualRecommendation.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog', ({ data }) => !data.draft);
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await entry.render();
+
+// Extract H2 headings for the Left Rail TOC
+const tocHeadings = headings.filter((h) => h.depth === 2);
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  keywords={entry.data.keywords.join(',')}
+  ogType="article"
+  publishedDate={entry.data.publishedDate}
+  updatedDate={entry.data.updatedDate}
+  canonicalUrl={entry.data.canonical}
+  breadcrumbs={[
+    { name: '首页', url: '/' },
+    { name: '调查专刊', url: '/blog/' },
+    { name: entry.data.category, url: '/blog/' },
+    { name: entry.data.title, url: `/blog/${entry.slug}/` }
+  ]}
+>
+  <div class="gazette-container py-8 sm:py-12">
+    <!-- Top Article Header Deck -->
+    <header class="border-b-4 border-[#1a1816] pb-8 mb-10">
+      <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-[#57534e] mb-3">
+        <span class="px-2 py-0.5 bg-[#b45309] text-white font-serif font-bold">
+          {entry.data.category}
+        </span>
+        <span>/</span>
+        <span>主题: {entry.data.topic}</span>
+        <span>/</span>
+        <span>发布日期: {entry.data.publishedDate}</span>
+        <span>/</span>
+        <span>作者: {entry.data.author}</span>
+      </div>
+
+      <!-- Sole Primary H1 for this Article (HG-08) -->
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold font-serif text-[#1a1816] leading-tight tracking-tight mb-4">
+        {entry.data.title}
+      </h1>
+
+      <p class="text-base sm:text-lg text-[#44403c] font-serif leading-relaxed border-l-4 border-[#1a1816] pl-4 py-1 bg-[#efece4]/40">
+        {entry.data.description}
+      </p>
+
+      <!-- Editorial Verification Notice Strip -->
+      <div class="mt-4 pt-3 border-t border-[#d6d1c7] flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[#78716c]">
+        <div>
+          <span>事实核查准则：本篇所有技术阐述均基于公开网络工程规范与真实测试环境，严禁虚构商业评分。</span>
+        </div>
+        <div>
+          <a href="/about/" class="text-[#b45309] hover:underline">查阅审核方法论 &rarr;</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Layout: Left Rail TOC + 820px Reading Column -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <!-- Left Rail TOC Column (Sticky 4 Cols) -->
+      <aside class="hidden lg:block lg:col-span-4 sticky top-6 space-y-6">
+        <div class="border-2 border-[#1a1816] bg-[#efece4] p-5 shadow-gazette">
+          <div class="border-b border-[#d6d1c7] pb-2 mb-3 flex items-center justify-between">
+            <span class="font-serif font-bold text-sm text-[#1a1816]">本篇导读索引 (Index)</span>
+            <span class="text-xs font-mono text-[#78716c]">LEFT RAIL</span>
+          </div>
+
+          <nav class="space-y-2 text-xs font-serif" aria-label="本篇章节目录">
+            {tocHeadings.map((h, idx) => (
+              <a
+                href={`#${h.slug}`}
+                class="block py-1 text-stone-700 hover:text-[#b45309] hover:underline transition-colors leading-snug"
+              >
+                <span class="font-mono text-[#b45309] mr-1.5 font-bold">0{idx + 1}.</span>
+                <span>{h.text}</span>
+              </a>
+            ))}
+            {entry.data.faq && entry.data.faq.length > 0 && (
+              <a
+                href="#faq-section"
+                class="block py-1 text-stone-700 hover:text-[#b45309] hover:underline transition-colors leading-snug border-t border-stone-300 pt-2 mt-2 font-bold"
+              >
+                <span class="font-mono text-[#b45309] mr-1.5">Q&A.</span>
+                <span>调查问答录 ({entry.data.faq.length} 组)</span>
+              </a>
+            )}
+          </nav>
+        </div>
+
+        <!-- Left Column Bureau Meta Box -->
+        <div class="border border-[#d6d1c7] bg-white p-4 text-xs text-stone-600 font-sans shadow-sm">
+          <div class="font-serif font-bold text-[#1a1816] mb-1">
+            编辑部声明
+          </div>
+          <p class="m-0 leading-relaxed">
+            本文系客观科普与消费指引，读者在购买任何服务时请始终坚持小额按月测试，防范超售与运营风险。
+          </p>
+        </div>
+      </aside>
+
+      <!-- Right Broad Reading Column (8 Cols / max-w-820px) -->
+      <article class="lg:col-span-8 max-w-[820px]">
+        <!-- Article Prose Content -->
+        <div class="gazette-prose">
+          <Content />
+        </div>
+
+        <!-- Mid-to-End Contextual Commercial Touchpoint (Contextual matching only, Section 46-50) -->
+        <ContextualRecommendation
+          topic={entry.data.topic}
+          category={entry.data.category}
+          contextTag={entry.data.primaryKeyword}
+        />
+
+        <!-- Visible FAQ Section (FAQ-13 & FAQ-15) -->
+        {entry.data.faq && entry.data.faq.length > 0 && (
+          <div id="faq-section">
+            <FAQBlock faqs={entry.data.faq} title={`${entry.data.title} · 核心问题调查答疑`} />
+          </div>
+        )}
+
+        <!-- Bottom Article Footer & Colophon -->
+        <div class="mt-12 pt-6 border-t-2 border-[#1a1816] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#78716c]">
+          <div>
+            <span>责任编辑：{entry.data.author}</span>
+            <span class="mx-2">·</span>
+            <span>更新于 {entry.data.updatedDate}</span>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <a href="/blog/" class="text-[#b45309] hover:underline font-serif font-bold">
+              &larr; 返回专刊文库
+            </a>
+            <a href="/airports/" class="text-[#1a1816] hover:underline font-serif font-bold">
+              调取机场档案库 &rarr;
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</BaseLayout>

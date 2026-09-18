@@ -1,0 +1,114 @@
+---
+import type { Airport } from '../data/airports';
+import { formatVerificationClaim } from '../utils/claims';
+
+interface Props {
+  airport: Airport;
+  featured?: boolean;
+}
+
+const { airport, featured = false } = Astro.props;
+
+// Formatting price safely
+const priceDisplay = airport.lowestDirectMonthlyPriceCny !== null
+  ? `¥${airport.lowestDirectMonthlyPriceCny.toFixed(2)}`
+  : airport.lowestListedAnnualPriceCny !== null
+    ? `¥${airport.lowestListedAnnualPriceCny.toFixed(2)} / 年`
+    : airport.lowestListedOneTimePriceCny !== null
+      ? `¥${airport.lowestListedOneTimePriceCny.toFixed(2)} / 一次性`
+      : '资费待核验';
+
+const lineInfo = airport.lineArchitecture || '资料未提供具体线路';
+const protocolInfo = airport.protocols || '未明确披露协议';
+---
+
+<article class={`border border-[#d6d1c7] bg-white p-5 flex flex-col justify-between transition-all duration-150 relative shadow-gazette ${featured ? 'border-l-4 border-l-[#b45309]' : ''}`}>
+  <!-- Double Hairline Accent at bottom -->
+  <div class="absolute inset-x-0 bottom-0 h-1 border-b-2 border-double border-[#d6d1c7]"></div>
+
+  <div>
+    <!-- Top Header & Status -->
+    <div class="flex items-start justify-between gap-3 border-b border-stone-200 pb-3 mb-3">
+      <div>
+        <div class="text-[11px] font-mono text-[#78716c] uppercase tracking-wider">
+          DOSSIER #{airport.slug.toUpperCase()}
+        </div>
+        <h3 class="text-xl font-bold font-serif text-[#1a1816] mt-0.5 leading-snug">
+          <a href={`/airport/${airport.slug}/`} class="hover:text-[#b45309] transition-colors">
+            {airport.serviceName}
+          </a>
+        </h3>
+        {airport.aliases && (
+          <span class="text-xs text-stone-500 font-mono">别名: {airport.aliases}</span>
+        )}
+      </div>
+
+      <div class="text-right shrink-0">
+        <div class="text-xs text-stone-500 font-mono">起步资费</div>
+        <div class="text-xl font-mono font-black text-[#b45309]">
+          {priceDisplay}
+          {airport.lowestDirectMonthlyPriceCny !== null && <span class="text-xs font-normal text-stone-600">/月</span>}
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Specs Ledger -->
+    <div class="space-y-2 text-xs font-sans text-stone-700 mb-4 bg-[#efece4]/30 p-2.5 border border-[#e5e0d8]">
+      <div class="flex items-baseline justify-between gap-2">
+        <span class="font-bold text-stone-500 shrink-0 font-serif">线路架构:</span>
+        <span class="text-stone-900 font-mono text-right truncate" title={lineInfo}>
+          {lineInfo}
+        </span>
+      </div>
+
+      <div class="flex items-baseline justify-between gap-2">
+        <span class="font-bold text-stone-500 shrink-0 font-serif">适配协议:</span>
+        <span class="text-stone-900 font-mono text-right truncate" title={protocolInfo}>
+          {protocolInfo}
+        </span>
+      </div>
+
+      <div class="flex items-baseline justify-between gap-2">
+        <span class="font-bold text-stone-500 shrink-0 font-serif">AI / 流媒体:</span>
+        <span class="text-stone-700 text-right truncate">
+          {airport.aiServicesMentioned || airport.streamingServicesMentioned 
+            ? `${airport.aiServicesMentioned || ''} ${airport.streamingServicesMentioned ? '| ' + airport.streamingServicesMentioned : ''}`.trim()
+            : '官方资料未特别载明'}
+        </span>
+      </div>
+
+      <div class="flex items-baseline justify-between gap-2">
+        <span class="font-bold text-stone-500 shrink-0 font-serif">资料性质:</span>
+        <span class="font-mono text-[11px] text-[#15803d]">
+          {airport.verificationLevel === 'service_claim' ? '服务商公开资料' : '公开核查资料'}
+        </span>
+      </div>
+    </div>
+
+    <!-- Summary Snippet -->
+    {airport.summary && (
+      <p class="text-xs text-[#57534e] line-clamp-2 leading-relaxed mb-4">
+        {formatVerificationClaim(airport.summary, airport.verificationLevel, '称')}
+      </p>
+    )}
+  </div>
+
+  <!-- Bottom CTA Actions (STRICTLY NO COMPARE) -->
+  <div class="pt-3 border-t border-stone-200 flex items-center justify-between gap-2 mt-2">
+    <a
+      href={`/airport/${airport.slug}/`}
+      class="px-3 py-1.5 bg-[#1a1816] text-white hover:bg-[#b45309] transition-colors text-xs font-serif font-bold tracking-wide"
+    >
+      查阅详细档案 &rarr;
+    </a>
+
+    <a
+      href={`/go/${airport.slug}/`}
+      target="_blank"
+      rel="sponsored nofollow noopener noreferrer"
+      class="text-xs font-mono font-bold text-[#b45309] hover:underline underline-offset-2"
+    >
+      访问服务商官网 ↗
+    </a>
+  </div>
+</article>

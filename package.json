@@ -1,0 +1,23 @@
+{
+  "name": "jichangtizi-gazette",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "node scripts/build-data.js && astro check && astro build && node scripts/hard-qa-audit.js",
+    "build-data": "node scripts/build-data.js",
+    "qa-check": "node scripts/hard-qa-audit.js",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.5",
+    "astro": "^5.4.2",
+    "marked": "^18.0.13",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  }
+}

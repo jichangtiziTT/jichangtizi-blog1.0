@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import { getAllActiveAirports } from '../../data/airports';
+
+const allAirports = getAllActiveAirports();
+const totalCount = allAirports.length;
+
+const guideFAQs = [
+  {
+    question: "新手选择机场最核心的三大指标是什么？",
+    answer: "第一是支持单月小额试用（防范跑路风险）；第二是晚高峰连通平稳度（优先测试 IEPL/IPLC 专线或优质 BGP 节点）；第三是订阅格式是否原生兼容您所使用的设备客户端（如 Clash、Shadowrocket、Sing-box）。",
+    intent: "selection",
+    keyword: "新手选购三大指标"
+  },
+  {
+    question: "为什么本站不提供“机场排行榜”或“横向评测评分”？",
+    answer: "跨境网络具有高度的动态性与地域依赖性。不同城市、不同宽带运营商（电信/联通/移动）甚至不同时间段的体验差异极其悬殊。静态的综合排名或人造冠军往往掩盖了真实技术细节并带来商业诱导，本站坚持教用户如何看懂参数自主筛选。",
+    intent: "definition",
+    keyword: "为何不设排行榜"
+  },
+  {
+    question: "预算在 15-30 元/月，应该如何规划选购？",
+    answer: "在 15-30 元主流入门价格区间，部分服务商通常提供 100GB-250GB 的月度流量配额，并涵盖专线或 BGP 节点。建议优先挑选支持月付的套餐，连续体验 1 个月确认满足日常需求后再行续费。",
+    intent: "cost",
+    keyword: "预算选购规划"
+  },
+  {
+    question: "轻度用量用户是否有必要购买月付套餐？",
+    answer: "若每月实际流量消耗不足 20GB 或仅用于临时出差备用，购买按月清零的周期套餐容易造成浪费。此时建议在支持“买断制不限时流量包”的服务商处选购一份永久流量包，按量扣费不过期。",
+    intent: "selection",
+    keyword: "轻度用户方案"
+  }
+];
+---
+
+<BaseLayout
+  title="2026 新手选购机场完整指南 ｜ 线路、协议与套餐防坑方法论"
+  description="面向中国普通网络消费者的机场选购方法论专刊。详解内网专线与公网区别、月付与不限时按量包搭配策略、客户端协议选择，教用户看懂技术规格自主决策。"
+  breadcrumbs={[
+    { name: '首页', url: '/' },
+    { name: '选购决策指南', url: '/guides/how-to-choose-airport/' }
+  ]}
+>
+  <div class="gazette-container py-8 sm:py-12">
+    <!-- Header Box -->
+    <header class="border-b-4 border-[#1a1816] pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-2 py-0.5 bg-[#b45309] text-white font-mono text-xs font-bold mb-3">
+        <span>SELECTION MONOGRAPH</span>
+        <span>·</span>
+        <span>选购决策专刊</span>
+      </div>
+
+      <!-- Sole primary H1 for this page (HG-08) -->
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold font-serif text-[#1a1816] tracking-tight leading-tight mb-4">
+        2026 新手选购机场方法论：教你看懂技术参数，拒绝被收割
+      </h1>
+
+      <p class="text-base sm:text-lg text-[#44403c] font-serif leading-relaxed border-l-4 border-[#b45309] pl-4 py-1 bg-[#efece4]/40">
+        网络加速服务不是买彩票。本指南不替任何服务商背书，也不评选所谓“行业冠军”或“首选神器”。我们以网络工程标准剖析核心参数，教您如何看懂真实数据，守护自己的钱包与网络体验。
+      </p>
+    </header>
+
+    <div class="max-w-[860px] mx-auto">
+      <div class="gazette-prose">
+        <h2>第一章：辨明五大核心概念，破除术语崇拜</h2>
+        <p>
+          在各大论坛与推广群中，各种高深缩写层出不穷。其实对于绝大多数普通用户而言，只需理清以下五大概念即可看透 90% 的宣传迷雾：
+        </p>
+        <ul>
+          <li><strong>IEPL / IPLC 跨国内网专线</strong>：点对点内网连接，不走公网国际出口，晚高峰不拥堵、丢包低，是高品质体验的物理保障。</li>
+          <li><strong>BGP 隧道中转</strong>：国内多线服务器汇聚入口，对电信、联通、移动均有良好适配，性价比高，但跨境仍受部分骨干网波动影响。</li>
+          <li><strong>节点倍率</strong>：计费系数。1x 倍率最健康；部分服务商用 0.2x 吸引用户或用 3x/5x 快速消耗流量，选购时务必留意。</li>
+          <li><strong>周期订阅 vs 不限时包</strong>：高频追剧选周期月付；低频查资料或备用首选不限时按量流量包。</li>
+          <li><strong>原生 IP</strong>：Whois 注册地与机房物理地一致的纯净 IP，访问 OpenAI、Claude 及海外流媒体时不易被风控拦截。</li>
+        </ul>
+
+        <h2>第二章：新手避坑黄金法则</h2>
+        <p>
+          根据调查编辑部整理的常见纠纷案例，新手遭受损失往往是因为违反了以下三条铁律：
+        </p>
+        <ol>
+          <li><strong>绝不直接年付</strong>：无论促销折扣多么诱人（哪怕宣传 8 折、7 折甚至 5 折），首次购买务必选择单月套餐。只有亲身在晚高峰（20:00-23:00）测试过本地网络适配度后，才有资格评估是否长周期续约。</li>
+          <li><strong>不迷信“100% 满速承诺”</strong>：网络通信受物理距离、运营商网关、本地 Wi-Fi 等数十个环节影响。任何宣称“绝对不卡、永久可用”的口号均违背基本物理常识。</li>
+          <li><strong>双线路互备策略</strong>：主力选择一家稳定的专线月付服务，备用挑选一份廉价的不限时按量包。鸡蛋不放在一个篮子里，才能确保重要时刻网络不中断。</li>
+        </ol>
+
+        <h2>第三章：如何利用本站档案库筛选？</h2>
+        <p>
+          本站收录了全网 <a href="/airports/">{totalCount} 家服务商公开规格档案</a>。您可以根据个人具体需求使用筛选检索台：
+        </p>
+        <ul>
+          <li>若追求低预算：进入 <a href="/airports/?price=budget">入门体验专区 (≤¥20/月)</a> 快速筛选支持小额月付的条目。</li>
+          <li>若重视晚高峰追剧与会议：进入 <a href="/airports/?line=iepl">内网专线专区</a> 调取纯 IEPL/IPLC 架构服务商。</li>
+          <li>若作为备用容灾：进入 <a href="/airports/?type=onetime">不限时按量包档案</a> 筛选永久有效不按月清零的套餐。</li>
+        </ul>
+      </div>
+
+      <!-- FAQ Section -->
+      <FAQBlock faqs={guideFAQs} title="新手选购高频疑问客观答疑" />
+
+      <!-- Back to Archives CTA -->
+      <div class="mt-10 p-6 border-2 border-[#1a1816] bg-[#efece4] text-center shadow-gazette">
+        <h3 class="text-xl font-bold font-serif text-[#1a1816] mb-2">
+          掌握方法论后，立即查阅真实数据
+        </h3>
+        <p class="text-xs text-stone-600 font-sans max-w-lg mx-auto mb-4">
+          查看全站收录的全部服务商客观规格参数，根据预算与线路独立筛选：
+        </p>
+        <a
+          href="/airports/"
+          class="inline-block px-6 py-2.5 bg-[#b45309] hover:bg-[#92400e] text-white text-xs font-serif font-bold transition-colors"
+        >
+          打开全量机场档案库台账 &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

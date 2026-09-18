@@ -1,0 +1,86 @@
+---
+import { getAllActiveAirports, type Airport } from '../data/airports';
+
+interface Props {
+  topic?: string;
+  category?: string;
+  contextTag?: string;
+}
+
+const { topic = '', category = '', contextTag = '' } = Astro.props;
+
+const allActive = getAllActiveAirports();
+
+// Step 1 & 2: Contextual matching based on verified fields
+let matches: Airport[] = [];
+
+const lowerTopic = (topic + ' ' + category + ' ' + contextTag).toLowerCase();
+
+if (lowerTopic.includes('ai') || lowerTopic.includes('chatgpt')) {
+  matches = allActive.filter(a => a.aiServicesMentioned && a.aiServicesMentioned.length > 0);
+} else if (lowerTopic.includes('iepl') || lowerTopic.includes('iplc') || lowerTopic.includes('专线')) {
+  matches = allActive.filter(a => a.lineArchitecture && (a.lineArchitecture.includes('IEPL') || a.lineArchitecture.includes('IPLC')));
+} else if (lowerTopic.includes('clash') || lowerTopic.includes('客户端')) {
+  matches = allActive.filter(a => (a.clientSupport && a.clientSupport.includes('Clash')) || (a.protocols && a.protocols.includes('SS')));
+} else if (lowerTopic.includes('价格') || lowerTopic.includes('套餐') || lowerTopic.includes('预算') || lowerTopic.includes('新手')) {
+  matches = allActive.filter(a => a.lowestDirectMonthlyPriceCny !== null && a.lowestDirectMonthlyPriceCny <= 25);
+} else {
+  // General beginner match
+  matches = allActive.filter(a => a.lowestDirectMonthlyPriceCny !== null && a.lowestDirectMonthlyPriceCny <= 25);
+}
+
+// Step 3: If no real match, strict NO_CONTEXTUAL_MATCH
+const hasMatches = matches.length > 0;
+// Limit to max 2-3 relevant providers
+const selectedAirports = hasMatches ? matches.slice(0, 3) : [];
+---
+
+{hasMatches && selectedAirports.length > 0 && (
+  <aside class="my-8 border-2 border-[#1a1816] bg-[#efece4]/50 p-5 shadow-gazette" aria-label="相关服务商资料索引">
+    <div class="flex items-center justify-between border-b border-[#d6d1c7] pb-2 mb-4">
+      <div class="flex items-center space-x-2">
+        <span class="px-1.5 py-0.5 bg-[#b45309] text-white font-mono text-xs font-bold">DOSSIER INDEX</span>
+        <h4 class="font-serif font-bold text-base text-[#1a1816] m-0">
+          相关技术场景服务商资料索引
+        </h4>
+      </div>
+      <span class="text-xs font-mono text-[#78716c]">按主题技术特性匹配收录</span>
+    </div>
+
+    <p class="text-xs text-[#57534e] mb-4 font-sans leading-relaxed">
+      以下资料来自公开服务商档案，仅作为当前技术主题（{topic || '网络加速'}）的相关参考条目。建议读者按需查阅具体套餐规格并遵守单月测试原则：
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {selectedAirports.map((airport) => {
+        const price = airport.lowestDirectMonthlyPriceCny !== null 
+          ? `¥${airport.lowestDirectMonthlyPriceCny}/月起`
+          : '详见档案';
+        return (
+          <div class="border border-[#d6d1c7] bg-white p-3 flex flex-col justify-between">
+            <div>
+              <div class="font-serif font-bold text-sm text-[#1a1816] truncate">
+                {airport.serviceName}
+              </div>
+              <div class="text-xs font-mono text-[#b45309] font-bold mt-1">
+                {price}
+              </div>
+              <div class="text-[11px] text-stone-600 font-sans mt-1 line-clamp-1" title={airport.lineArchitecture || ''}>
+                线路: {airport.lineArchitecture || '公开资料未注明'}
+              </div>
+            </div>
+
+            <div class="mt-3 pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+              <a href={`/airport/${airport.slug}/`} class="text-[#1a1816] font-serif hover:underline">
+                查看档案 &rarr;
+              </a>
+              <a href={`/go/${airport.slug}/`} target="_blank" rel="sponsored nofollow noopener noreferrer" class="text-[#b45309] font-mono hover:underline">
+                官网 ↗
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </aside>
+)}

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="关于本公报 ｜ 事实核验方法论与编辑部独立准则"
+  description="机场梯子调查公报的办站宗旨、数据来源渠道、事实核验机制、推广收益披露与读者勘误流程说明。坚持未知即未知，拒绝人造商业榜单。"
+  breadcrumbs={[
+    { name: '首页', url: '/' },
+    { name: '关于我们', url: '/about/' }
+  ]}
+>
+  <div class="gazette-container py-8 sm:py-12">
+    <!-- Header Box -->
+    <header class="border-b-4 border-[#1a1816] pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-2 py-0.5 bg-[#1a1816] text-white font-mono text-xs font-bold mb-3">
+        <span>EDITORIAL PRINCIPLES</span>
+        <span>·</span>
+        <span>办报宗旨与审查准则</span>
+      </div>
+
+      <!-- Sole primary H1 for this page (HG-08) -->
+      <h1 class="text-2xl sm:text-4xl font-extrabold font-serif text-[#1a1816] tracking-tight leading-tight mb-4">
+        关于本公报：事实核验方法论与编辑部独立准则
+      </h1>
+
+      <p class="text-base sm:text-lg text-[#44403c] font-serif leading-relaxed border-l-4 border-[#1a1816] pl-4 py-1 bg-[#efece4]/40">
+        机场梯子 (jichangtizi.com) 设立的初衷，是为中文互联网中被过度营销与虚假跑分包围的普通网络消费者，建立一座客观、冷静、可追溯的网络加速服务数据档案所。
+      </p>
+    </header>
+
+    <div class="max-w-[860px] mx-auto gazette-prose">
+      <h2>一、 我们的数据来自何处？</h2>
+      <p>
+        本站收录的所有服务商条目数据，均提取自各服务商在其官方网站、用户中心及公开频道中发布的真实文档与套餐定价。我们坚持：
+      </p>
+      <ul>
+        <li><strong>服务商公开声明 (Service Claim)</strong>：标明该数据源自服务商单方资料，仅代表官方宣称规格，不代表本站实测担保。</li>
+        <li><strong>未知即未知 (Unknown is Unknown)</strong>：如果服务商未公开其具体协议、线路细节或在线设备限制，我们绝不臆测或自动补全数据，一律如实标注为“未提供”或“未明确载明”。</li>
+      </ul>
+
+      <h2>二、 为什么我们永久禁用“横向评测”与“综合排名”？</h2>
+      <p>
+        市面上充斥着各种所谓“全网第一”、“十大最好用机场”等排名榜单。我们认为，这种人造天梯违背基本的网络工程常识：
+      </p>
+      <ul>
+        <li>跨境网络性能由数十个复杂变量决定：用户的地理省份、家庭宽带运营商（电信/联通/移动）、本地光猫配置、目标网站机房路由以及一天之中的时段负载。</li>
+        <li>在单一固定测速服务器下跑出的极速截图，对另一个省份或另一家宽带的用户毫无参考意义。</li>
+        <li>因此，我们坚持通过<strong>属性维度筛选 (Filter)</strong> 与<strong>选购方法论 (Selection Guide)</strong>，赋能用户根据自己的预算与网络环境自主做出判断，绝不制造虚假冠军。</li>
+      </ul>
+
+      <h2 id="ethics">三、 推广收益披露与回避准则</h2>
+      <p>
+        为了保障档案所的持续维护、域名与服务器开支，本站部分指向服务商官网的出站链接附带有推广标识参数：
+      </p>
+      <ul>
+        <li><strong>零价格差异保证</strong>：通过本站链接访问并注册，绝不会增加用户购买任何套餐的实际支出；在部分服务商提供优惠码时，甚至可获得常规公开折扣。</li>
+        <li><strong>商业优先级隔离</strong>：本站内部可能存在商业排期优先级调度，但该优先级绝不作为前台的“客观评分”或“用户人气”，严禁虚构测速数据来迎合商业转化。</li>
+      </ul>
+
+      <h2>四、 勘误与反馈渠道</h2>
+      <p>
+        网络服务商的套餐内容、定价策略及线路维护随时可能发生变更。若您发现本站收录的某项资料已过时或与官方声明存在偏差，欢迎随时与我们联系。我们会在收到核实后及时更新数据台账：
+      </p>
+      <ul>
+        <li>电子邮箱：<code class="bg-[#efece4] px-2 py-0.5 font-mono text-[#b45309]">editor@jichangtizi.com</code></li>
+        <li>在线联络指引：请前往 <a href="/contact/">勘误联络页面</a> 查看详细说明。</li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

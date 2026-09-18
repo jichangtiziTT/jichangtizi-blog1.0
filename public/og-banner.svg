@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#f7f5f0"/>
+  <rect x="24" y="24" width="1152" height="582" fill="#ffffff" stroke="#d6d1c7" stroke-width="2"/>
+  <line x1="48" y1="120" x2="1152" y2="120" stroke="#1a1816" stroke-width="4"/>
+  <line x1="48" y1="128" x2="1152" y2="128" stroke="#b45309" stroke-width="1.5"/>
+  <text x="60" y="86" font-family="'Noto Serif SC', Georgia, serif" font-size="44" font-weight="900" fill="#1a1816">机场梯子 · 调查公报与消费档案库</text>
+  <text x="1140" y="86" font-family="'JetBrains Mono', monospace" font-size="20" fill="#57534e" text-anchor="end">JICHANGTIZI.COM · GAZETTE EDITION</text>
+  
+  <text x="60" y="220" font-family="'Noto Serif SC', Georgia, serif" font-size="52" font-weight="800" fill="#1a1816">独立 · 客观 · 数据可追溯的网络加速选购指南</text>
+  <text x="60" y="290" font-family="'PingFang SC', sans-serif" font-size="26" fill="#57534e">彻底杜绝虚假测速与营销辞令 · 真实专线/协议档案 · 新手避坑首选</text>
+
+  <rect x="60" y="360" width="340" height="180" fill="#efece4" stroke="#d6d1c7" stroke-width="1"/>
+  <text x="80" y="405" font-family="'Noto Serif SC', serif" font-size="22" font-weight="700" fill="#b45309">01 / 线路规格真实核验</text>
+  <text x="80" y="445" font-family="'PingFang SC', sans-serif" font-size="16" fill="#1a1816">严格区分服务商单方声明与实测</text>
+  <text x="80" y="475" font-family="'PingFang SC', sans-serif" font-size="16" fill="#1a1816">IEPL / IPLC / BGP 真实架构解析</text>
+
+  <rect x="430" y="360" width="340" height="180" fill="#efece4" stroke="#d6d1c7" stroke-width="1"/>
+  <text x="450" y="405" font-family="'Noto Serif SC', serif" font-size="22" font-weight="700" fill="#b45309">02 / 零对比 · 纯筛选</text>
+  <text x="450" y="445" font-family="'PingFang SC', sans-serif" font-size="16" fill="#1a1816">永久禁用多机场横向 PK 与虚构胜出</text>
+  <text x="450" y="475" font-family="'PingFang SC', sans-serif" font-size="16" fill="#1a1816">按预算与使用场景多维度客观检索</text>
+
+  <rect x="800" y="360" width="340" height="180" fill="#efece4" stroke="#d6d1c7" stroke-width="1"/>
+  <text x="820" y="405" font-family="'Noto Serif SC', serif" font-size="22" font-weight="700" fill="#b45309">03 / 新手防坑与小额月付</text>
+  <text x="820" y="445" font-family="'PingFang SC', sans-serif" font-size="16" fill="#1a1816">防范大额年付跑路与超售陷阱</text>
+  <text x="820" y="475" font-family="'PingFang SC', sans-serif" font-size="16" fill="#1a1816">提供周期订阅与不限时按量指南</text>
+
+  <line x1="48" y1="570" x2="1152" y2="570" stroke="#d6d1c7" stroke-width="1"/>
+  <text x="60" y="594" font-family="'JetBrains Mono', monospace" font-size="14" fill="#8c857b">FACT VERIFICATION INTEGRITY · UNKNOWN IS UNKNOWN · ZERO FABRICATED DATA</text>
+</svg>

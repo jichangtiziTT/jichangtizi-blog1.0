@@ -1,0 +1,77 @@
+---
+export interface FAQItem {
+  question: string;
+  answer: string;
+  intent: string;
+  keyword?: string;
+}
+
+interface Props {
+  faqs: FAQItem[];
+  title?: string;
+}
+
+const { faqs, title = '调查问答录 (Editorial Q&A Desk)' } = Astro.props;
+
+const intentLabels: Record<string, string> = {
+  definition: '概念定义',
+  howto: '实操指南',
+  troubleshooting: '故障排除',
+  compatibility: '兼容适配',
+  selection: '选购决策',
+  cost: '资费成本',
+  risk: '风险防范',
+  difference: '技术差异',
+  other: '综合探讨'
+};
+---
+
+{faqs && faqs.length > 0 && (
+  <section class="my-10 border-t-2 border-b-2 border-[#1a1816] py-6 bg-[#efece4]/40" aria-label="相关问题答疑">
+    <div class="flex items-center justify-between mb-6 pb-2 border-b border-[#d6d1c7]">
+      <div class="flex items-center space-x-2">
+        <span class="px-2 py-0.5 bg-[#b45309] text-white text-xs font-mono font-bold">Q&A</span>
+        <h3 class="text-xl font-extrabold font-serif text-[#1a1816] m-0">
+          {title}
+        </h3>
+      </div>
+      <span class="text-xs font-mono text-[#78716c]">共收录 {faqs.length} 组关键问题解答</span>
+    </div>
+
+    <div class="space-y-4">
+      {faqs.map((item, index) => {
+        const intentLabel = intentLabels[item.intent] || '常见问题';
+        return (
+          <details class="group border border-[#d6d1c7] bg-white p-4 transition-all duration-150 open:bg-[#fbfaf8]">
+            <summary class="cursor-pointer font-serif font-bold text-base sm:text-lg text-[#1a1816] flex items-start justify-between gap-3 select-none list-none">
+              <div class="flex items-start gap-2.5">
+                <span class="text-[#b45309] font-mono font-bold text-sm sm:text-base mt-0.5">
+                  Q{index + 1}.
+                </span>
+                <span class="group-open:text-[#b45309] transition-colors leading-snug">
+                  {item.question}
+                </span>
+              </div>
+              <div class="flex items-center gap-2 shrink-0 mt-0.5">
+                <span class="text-[11px] font-mono px-1.5 py-0.5 bg-stone-100 text-stone-600 border border-stone-200">
+                  {intentLabel}
+                </span>
+                <span class="text-stone-400 font-mono text-xs group-open:rotate-180 transition-transform">
+                  ▼
+                </span>
+              </div>
+            </summary>
+            <div class="mt-3 pt-3 border-t border-dashed border-stone-200 text-sm text-[#44403c] leading-relaxed pl-6">
+              <p class="m-0 font-sans">{item.answer}</p>
+              {item.keyword && (
+                <div class="mt-2 text-[11px] font-mono text-stone-500">
+                  <span>聚焦意图：{item.keyword}</span>
+                </div>
+              )}
+            </div>
+          </details>
+        );
+      })}
+    </div>
+  </section>
+)}

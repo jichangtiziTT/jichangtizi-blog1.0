@@ -1,0 +1,489 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AirportDossierCard from '../../components/AirportDossierCard.astro';
+import { getAllActiveAirports } from '../../data/airports';
+import FAQBlock from '../../components/FAQBlock.astro';
+
+const allAirports = getAllActiveAirports();
+const totalCount = allAirports.length;
+
+const directoryFAQs = [
+  {
+    question: "在机场档案库中，“性价比机场”主要看哪些指标？",
+    answer: "不同服务商套餐价格差异较大，建议结合月付价格、流量额度和续费规则一起综合判断。此外，还需关注倍率计费真实性以及线路底层架构（如是否具备 BGP 入口或专线中继），优先通过单月小额试用验证本地运营商适配情况。",
+    intent: "selection",
+    keyword: "性价比机场"
+  },
+  {
+    question: "低价便宜机场与采用专线架构的机场有哪些技术差异？",
+    answer: "普通低价机场较多采用常规公网中转或直连，带宽成本较低，但在晚间国际出口拥堵时更易受到公网丢包波动影响；而标明配备 IEPL 或 IPLC 内网专线的服务商通常走独立封闭光缆。需要注意，线路类型只是判断因素之一，实际体验仍会受到运营商、地区、晚高峰负载和服务商配置影响。",
+    intent: "difference",
+    keyword: "便宜机场与稳定机场"
+  },
+  {
+    question: "什么是机场节点与代理节点？如何理解它们的作用？",
+    answer: "机场节点（或称代理节点、梯子节点）是部署在境外（如香港、日本、新加坡、美国等）的服务器中继点。用户通过客户端将网络流量加密发送至节点，再由节点转发访问目标网站，从而实现网络分流与跨境访问。",
+    intent: "definition",
+    keyword: "机场节点与代理节点"
+  },
+  {
+    question: "如何确认收录的机场是否支持导入 Clash 订阅？",
+    answer: "部分已收录服务商的公开资料明确提及 Clash、Mihomo 或通用订阅支持。可以使用机场库顶部的客户端筛选功能查看当前有明确记录的服务商，或在具体机场档案中核验客户端与订阅格式支持明细。",
+    intent: "compatibility",
+    keyword: "Clash机场订阅"
+  }
+];
+
+const directoryTopicCards = [
+  {
+    title: '机场推荐与选购决策',
+    desc: '系统解析专线与公网、月付与年付差异，确立小额按月试用防跑路准则。',
+    href: '/blog/how-to-choose-airport/'
+  },
+  {
+    title: '便宜机场与价格防坑',
+    desc: '深度拆解低价年付超售陷阱，对比买断制不限时流量包与周期套餐优劣。',
+    href: '/blog/airport-pricing-traps/'
+  },
+  {
+    title: '机场节点与协议原理',
+    desc: '科普中转入口与落地链路，对比 Shadowsocks、VMess 与 Hysteria2 协议特性。',
+    href: '/blog/airport-node-concepts/'
+  },
+  {
+    title: 'Clash 客户端与订阅配置',
+    desc: '从零教学 Clash Verge Rev 订阅导入、规则分流、TUN 模式及故障排除。',
+    href: '/blog/beginner-clash-guide/'
+  },
+  {
+    title: '专线网络与稳定性深度解析',
+    desc: '剖析 IEPL / IPLC 跨境内网专线物理光缆原理，揭秘晚高峰拥堵的底层成因。',
+    href: '/blog/iepl-iplc-line-guide/'
+  },
+  {
+    title: '手机梯子与跨平台实操',
+    desc: '覆盖 iOS Shadowrocket、安卓 Clash Meta 客户端选型与后台防杀优化技巧。',
+    href: '/blog/device-setup-guide/'
+  },
+  {
+    title: 'AI 工具与流媒体网络要求',
+    desc: '解析 ChatGPT、Claude 与海外主流流媒体对 IP 纯净度与分流规则的严格要求。',
+    href: '/blog/ai-and-streaming-network-requirements/'
+  },
+  {
+    title: '梯子、VPN 与加速器概念辨析',
+    desc: '辨析应用层代理、网络层 VPN 与游戏加速器的底层区别与适用场景。',
+    href: '/blog/airport-vs-vpn-difference/'
+  }
+];
+---
+
+<BaseLayout
+  title="机场推荐与节点档案库 ｜ 性价比机场、便宜机场与订阅筛选台"
+  description="收录全网主流性价比机场、便宜机场与机场节点公开规格数据。提供起步资费、IEPL专线、机场代理协议与Clash机场订阅多维检索，坚决杜绝虚构测速。"
+  keywords="机场推荐,性价比机场,便宜机场,机场节点,稳定机场,机场代理,机场订阅,节点推荐"
+  breadcrumbs={[
+    { name: '首页', url: '/' },
+    { name: '机场档案库', url: '/airports/' }
+  ]}
+>
+  <div class="gazette-container py-8 sm:py-12">
+    <!-- Masthead Section -->
+    <div class="border-b-4 border-[#1a1816] pb-6 mb-8">
+      <div class="inline-flex items-center gap-2 px-2 py-0.5 bg-[#b45309] text-white font-mono text-xs font-bold mb-3">
+        <span>AIRPORT DOSSIER REPOSITORY</span>
+        <span>·</span>
+        <span>服务商资料总库</span>
+      </div>
+
+      <!-- Sole primary H1 for this page (HG-08) -->
+      <h1 class="text-2xl sm:text-4xl font-extrabold font-serif text-[#1a1816] tracking-tight mb-3">
+        性价比机场、便宜机场与节点订阅检索档案库
+      </h1>
+
+      <p class="text-sm sm:text-base text-[#57534e] font-serif max-w-3xl leading-relaxed">
+        收录全网 <strong class="font-mono text-[#b45309]">{totalCount}</strong> 家网络加速服务商公开规格资料。本档案库仅依据服务商官方条款中立提取节点属性、公开套餐标价与客户端兼容性，永久废止任何横向评测与伪造排名。
+      </p>
+    </div>
+
+    <!-- Filter Console / 交互筛选台 -->
+    <section class="border-2 border-[#1a1816] bg-[#faf8f5] p-5 sm:p-6 mb-10 shadow-gazette">
+      <div class="border-b border-[#d6d1c7] pb-3 mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-2">
+          <span class="w-3 h-3 bg-[#b45309] inline-block"></span>
+          <h2 class="text-base sm:text-lg font-serif font-bold text-[#1a1816]">
+            档案检索控制台
+          </h2>
+          <span class="text-xs font-mono text-stone-500">
+            (共收录 <span id="filtered-count" class="font-bold text-[#b45309]">{totalCount}</span> / {totalCount} 家)
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            id="reset-filter-btn"
+            type="button"
+            class="text-xs font-mono text-stone-600 hover:text-[#b45309] underline transition-colors"
+          >
+            重置全部筛选条件
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Controls Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 text-xs">
+        <!-- 1. Search Keyword -->
+        <div>
+          <label for="search-input" class="block font-serif font-bold text-stone-800 mb-1">
+            关键词检索:
+          </label>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="名称 / 别名 / 协议..."
+            class="w-full px-2.5 py-1.5 bg-white border border-[#d6d1c7] text-stone-900 focus:outline-none focus:border-[#b45309]"
+          />
+        </div>
+
+        <!-- 2. Line Architecture -->
+        <div>
+          <label for="filter-line" class="block font-serif font-bold text-stone-800 mb-1">
+            线路架构要求:
+          </label>
+          <select
+            id="filter-line"
+            class="w-full px-2.5 py-1.5 bg-white border border-[#d6d1c7] text-stone-900 focus:outline-none focus:border-[#b45309]"
+          >
+            <option value="all">全部线路类型</option>
+            <option value="iepl">纯 IEPL 内网专线</option>
+            <option value="iplc">全 IPLC 专线网络</option>
+            <option value="bgp">BGP 隧道 / 优化中转</option>
+          </select>
+        </div>
+
+        <!-- 3. Client Filter (Structured Clash/Mihomo/Shadowrocket Support) -->
+        <div>
+          <label for="filter-client" class="block font-serif font-bold text-stone-800 mb-1">
+            客户端订阅适配:
+          </label>
+          <select
+            id="filter-client"
+            class="w-full px-2.5 py-1.5 bg-white border border-[#d6d1c7] text-stone-900 focus:outline-none focus:border-[#b45309]"
+          >
+            <option value="all">不限客户端支持</option>
+            <option value="clash">原生支持 Clash / Mihomo</option>
+            <option value="shadowrocket">原生支持 Shadowrocket (小火箭)</option>
+            <option value="singbox">支持 Sing-box 客户端</option>
+          </select>
+        </div>
+
+        <!-- 4. Budget / Price Range -->
+        <div>
+          <label for="filter-price" class="block font-serif font-bold text-stone-800 mb-1">
+            月付预算区间:
+          </label>
+          <select
+            id="filter-price"
+            class="w-full px-2.5 py-1.5 bg-white border border-[#d6d1c7] text-stone-900 focus:outline-none focus:border-[#b45309]"
+          >
+            <option value="all">不限预算区间</option>
+            <option value="budget">¥20元及以下 (轻量入门)</option>
+            <option value="medium">¥21 - ¥35元 (主流性价比)</option>
+            <option value="pro">¥36元以上 (高配专线)</option>
+          </select>
+        </div>
+
+        <!-- 5. Package Type -->
+        <div>
+          <label for="filter-type" class="block font-serif font-bold text-stone-800 mb-1">
+            计费套餐模式:
+          </label>
+          <select
+            id="filter-type"
+            class="w-full px-2.5 py-1.5 bg-white border border-[#d6d1c7] text-stone-900 focus:outline-none focus:border-[#b45309]"
+          >
+            <option value="all">全部计费形式</option>
+            <option value="monthly">支持常规周期月付</option>
+            <option value="onetime">提供买断制不限时包</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Feature Pill Toggles -->
+      <div class="mt-4 pt-3 border-t border-[#e7e3da] flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-stone-500 font-mono text-[11px] mr-1">特定功能速选:</span>
+        <button
+          type="button"
+          id="toggle-ai"
+          class="px-2.5 py-1 border border-[#d6d1c7] bg-white text-stone-700 hover:border-[#b45309] font-serif transition-colors"
+        >
+          资料提及 AI (ChatGPT)
+        </button>
+        <button
+          type="button"
+          id="toggle-streaming"
+          class="px-2.5 py-1 border border-[#d6d1c7] bg-white text-stone-700 hover:border-[#b45309] font-serif transition-colors"
+        >
+          资料提及流媒体解锁
+        </button>
+      </div>
+    </section>
+
+    <!-- Dossier Cards Grid -->
+    <div id="dossier-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {allAirports.map((airport) => (
+        <div
+          class="dossier-item"
+          data-name={airport.serviceName.toLowerCase()}
+          data-aliases={(airport.aliases || '').toLowerCase()}
+          data-line={(airport.lineArchitecture || '').toLowerCase()}
+          data-monthly-price={airport.lowestDirectMonthlyPriceCny ?? 9999}
+          data-has-onetime={airport.lowestListedOneTimePriceCny !== null ? 'true' : 'false'}
+          data-has-monthly={airport.lowestDirectMonthlyPriceCny !== null ? 'true' : 'false'}
+          data-protocols={(airport.protocols || '').toLowerCase()}
+          data-clients={(airport.clientSupport || '').toLowerCase()}
+          data-ai={airport.aiServicesMentioned ? 'true' : 'false'}
+          data-streaming={airport.streamingServicesMentioned ? 'true' : 'false'}
+        >
+          <AirportDossierCard airport={airport} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty Filter Notice -->
+    <div id="empty-notice" class="hidden text-center py-16 border-2 border-dashed border-[#d6d1c7] bg-white p-8">
+      <div class="text-3xl font-serif text-stone-400 mb-2">未检索到匹配条目</div>
+      <p class="text-sm text-stone-600 font-sans max-w-md mx-auto mb-4">
+        在当前筛选条件下，数据库中暂时未收录完全吻合的服务商公开资料。建议放宽线路、客户端或预算条件后重新检索。
+      </p>
+      <button
+        id="empty-reset-btn"
+        type="button"
+        class="px-4 py-2 bg-[#1a1816] text-white text-xs font-serif font-bold hover:bg-[#b45309] transition-colors"
+      >
+        恢复显示全部已收录机场资料
+      </button>
+    </div>
+
+    <!-- SEO / FAQ Section for Keyword Coverage -->
+    <div class="mt-12">
+      <FAQBlock faqs={directoryFAQs} title="机场节点与订阅常见问题检索答疑" />
+    </div>
+
+    <!-- Natural Topic Navigation (8 Natural Topics, Zero Keyword Tag Wall) -->
+    <section class="border border-[#d6d1c7] bg-[#faf8f5] p-6 sm:p-8 mt-12 mb-4">
+      <div class="border-b-2 border-[#1a1816] pb-3 mb-5">
+        <span class="text-[10px] font-mono font-bold tracking-widest text-[#b45309] uppercase block mb-1">
+          TOPIC GUIDES · 专题导航
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold font-serif text-[#1a1816]">
+          全站核心选型与配置指南
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {directoryTopicCards.map((topic) => (
+          <a
+            href={topic.href}
+            class="group block p-4 bg-white border border-[#d6d1c7] hover:border-[#b45309] transition-colors shadow-sm"
+          >
+            <h3 class="font-serif font-bold text-sm text-[#1a1816] group-hover:text-[#b45309] mb-1.5 flex items-center justify-between">
+              <span>{topic.title}</span>
+              <span class="text-xs text-[#b45309] font-mono">&rarr;</span>
+            </h3>
+            <p class="text-xs text-stone-600 font-sans leading-relaxed">
+              {topic.desc}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <!-- Functional JavaScript for URLSearchParams & Filtering (Rule 61 Verified) -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('search-input');
+      const filterLine = document.getElementById('filter-line');
+      const filterClient = document.getElementById('filter-client');
+      const filterPrice = document.getElementById('filter-price');
+      const filterType = document.getElementById('filter-type');
+      const toggleAi = document.getElementById('toggle-ai');
+      const toggleStreaming = document.getElementById('toggle-streaming');
+      const resetBtn = document.getElementById('reset-filter-btn');
+      const emptyResetBtn = document.getElementById('empty-reset-btn');
+      const filteredCount = document.getElementById('filtered-count');
+      const emptyNotice = document.getElementById('empty-notice');
+      const dossierGrid = document.getElementById('dossier-grid');
+      const items = Array.from(document.querySelectorAll('.dossier-item'));
+
+      let requireAi = false;
+      let requireStreaming = false;
+
+      // Read URLSearchParams on page load (Rule 61)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('q')) {
+        searchInput.value = urlParams.get('q') || '';
+      }
+      if (urlParams.has('line')) {
+        const val = urlParams.get('line');
+        if (['iepl', 'iplc', 'bgp'].includes(val)) {
+          filterLine.value = val;
+        }
+      }
+      if (urlParams.has('client')) {
+        const val = urlParams.get('client').toLowerCase();
+        if (['clash', 'shadowrocket', 'singbox'].includes(val)) {
+          filterClient.value = val;
+        }
+      }
+      if (urlParams.has('price')) {
+        const val = urlParams.get('price');
+        if (['budget', 'medium', 'pro'].includes(val)) {
+          filterPrice.value = val;
+        }
+      }
+      if (urlParams.has('type')) {
+        const val = urlParams.get('type');
+        if (['monthly', 'onetime'].includes(val)) {
+          filterType.value = val;
+        }
+      }
+      if (urlParams.has('filter')) {
+        const f = urlParams.get('filter').toLowerCase();
+        if (f === 'ai') {
+          requireAi = true;
+          toggleAi.classList.add('bg-[#1a1816]', 'text-white', 'border-[#1a1816]');
+        } else if (f === 'streaming') {
+          requireStreaming = true;
+          toggleStreaming.classList.add('bg-[#1a1816]', 'text-white', 'border-[#1a1816]');
+        }
+      }
+
+      function applyFilter() {
+        const query = (searchInput.value || '').trim().toLowerCase();
+        const line = filterLine.value;
+        const client = filterClient.value;
+        const price = filterPrice.value;
+        const type = filterType.value;
+
+        let visibleCount = 0;
+
+        items.forEach((item) => {
+          const name = item.dataset.name || '';
+          const aliases = item.dataset.aliases || '';
+          const itemLine = item.dataset.line || '';
+          const clients = item.dataset.clients || '';
+          const protocols = item.dataset.protocols || '';
+          const monthlyPrice = parseFloat(item.dataset.monthlyPrice || '9999');
+          const hasOnetime = item.dataset.hasOnetime === 'true';
+          const hasMonthly = item.dataset.hasMonthly === 'true';
+          const hasAi = item.dataset.ai === 'true';
+          const hasStreaming = item.dataset.streaming === 'true';
+
+          let match = true;
+
+          // Keyword Match (Broadened to name, aliases, clients, protocols, line)
+          if (query) {
+            const hit = name.includes(query) ||
+              aliases.includes(query) ||
+              clients.includes(query) ||
+              protocols.includes(query) ||
+              itemLine.includes(query);
+            if (!hit) match = false;
+          }
+
+          // Line Match
+          if (match && line !== 'all') {
+            if (line === 'iepl' && !itemLine.includes('iepl')) match = false;
+            if (line === 'iplc' && !itemLine.includes('iplc')) match = false;
+            if (line === 'bgp' && !itemLine.includes('bgp')) match = false;
+          }
+
+          // Client Match (Structured)
+          if (match && client !== 'all') {
+            if (client === 'clash' && !clients.includes('clash') && !protocols.includes('clash')) match = false;
+            if (client === 'shadowrocket' && !clients.includes('shadowrocket')) match = false;
+            if (client === 'singbox' && !clients.includes('sing-box') && !clients.includes('singbox')) match = false;
+          }
+
+          // Price Match
+          if (match && price !== 'all') {
+            if (price === 'budget' && monthlyPrice > 20) match = false;
+            if (price === 'medium' && (monthlyPrice <= 20 || monthlyPrice > 35)) match = false;
+            if (price === 'pro' && monthlyPrice <= 35) match = false;
+          }
+
+          // Type Match
+          if (match && type !== 'all') {
+            if (type === 'monthly' && !hasMonthly) match = false;
+            if (type === 'onetime' && !hasOnetime) match = false;
+          }
+
+          // Quick Toggles Match
+          if (match && requireAi && !hasAi) match = false;
+          if (match && requireStreaming && !hasStreaming) match = false;
+
+          if (match) {
+            item.style.display = '';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        filteredCount.textContent = visibleCount.toString();
+        if (visibleCount === 0) {
+          emptyNotice.classList.remove('hidden');
+          dossierGrid.classList.add('hidden');
+        } else {
+          emptyNotice.classList.add('hidden');
+          dossierGrid.classList.remove('hidden');
+        }
+      }
+
+      function resetFilters() {
+        searchInput.value = '';
+        filterLine.value = 'all';
+        filterClient.value = 'all';
+        filterPrice.value = 'all';
+        filterType.value = 'all';
+        requireAi = false;
+        requireStreaming = false;
+        toggleAi.classList.remove('bg-[#1a1816]', 'text-white', 'border-[#1a1816]');
+        toggleStreaming.classList.remove('bg-[#1a1816]', 'text-white', 'border-[#1a1816]');
+        applyFilter();
+        // Clear url params cleanly
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+
+      searchInput.addEventListener('input', applyFilter);
+      filterLine.addEventListener('change', applyFilter);
+      filterClient.addEventListener('change', applyFilter);
+      filterPrice.addEventListener('change', applyFilter);
+      filterType.addEventListener('change', applyFilter);
+
+      toggleAi.addEventListener('click', () => {
+        requireAi = !requireAi;
+        toggleAi.classList.toggle('bg-[#1a1816]');
+        toggleAi.classList.toggle('text-white');
+        toggleAi.classList.toggle('border-[#1a1816]');
+        applyFilter();
+      });
+
+      toggleStreaming.addEventListener('click', () => {
+        requireStreaming = !requireStreaming;
+        toggleStreaming.classList.toggle('bg-[#1a1816]');
+        toggleStreaming.classList.toggle('text-white');
+        toggleStreaming.classList.toggle('border-[#1a1816]');
+        applyFilter();
+      });
+
+      resetBtn.addEventListener('click', resetFilters);
+      emptyResetBtn.addEventListener('click', resetFilters);
+
+      // Execute initial filter
+      applyFilter();
+    });
+  </script>
+</BaseLayout>

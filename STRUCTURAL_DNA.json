@@ -1,0 +1,18 @@
+{
+  "layoutFamily": "Investigative Gazette & Consumer Dossier Bureau (调查新闻晚报与消费档案库)",
+  "homepageTopology": "Top Dispatch Bar -> Asymmetric Left Masthead -> Headline Story Deck & Decision Matrix -> Quick Filter Desk -> Audited Dossier Index (Zero Compare) -> Investigation Guides -> Editorial Standards -> Bureau Impressum",
+  "headerTopology": "Asymmetric Left Gazette Header with Top Dispatch Marquee and Fact-Check Bureau Seal",
+  "navigationTopology": "Tabular Gazette Deck Bar with Underline Dot Accent & Live Category Counters",
+  "heroTopology": "Headline Story Deck + 3-Column Decision Gateway (Front-page Lead Investigation on How to Choose)",
+  "containerSystem": "gazette-container (max-w-[1280px] mx-auto px-4 sm:px-6) with 820px Reading Column for Articles",
+  "sectionRhythm": "Editorial Gazette Rhythm (40px - 56px) with Double-Hairline Slate Cut Separators",
+  "gridSystem": "Asymmetric 7/5 Newspaper Grid + 3-Column Asymmetric Story Stream + Gazette Ledger Rows",
+  "cardTopology": "Sharp Boxout Cards with 0px Radius, 1px Newsprint Hairline and Double-Line Bottom Cut Accent",
+  "airportTopology": "Gazette Dossier Entry Cards & Tabular Archive Ledger with Realtime Query Desking (Zero Compare Feature)",
+  "articleTopology": "Left Rail Sticky TOC (280px) + Broad Editorial Column (820px) with Embedded 2-Stage Contextual Touchpoints",
+  "tocPosition": "Sticky Left Rail Column with Numbered Gazette Jumper Lines",
+  "sidebarStrategy": "Left Sticky Meta & TOC Rail (Zero Ad Banners, In-Article Contextual Cards Only)",
+  "ctaTopology": "Burnt Amber Solid Badge Button (查阅详细档案) + Dotted Underline Text Link (访问服务商官网 ↗)",
+  "footerTopology": "Bureau Editorial Impressum & Colophon with Publication Registry, Verification Methodology, and Affiliate Disclosure",
+  "mobileTopology": "Gazette Pocket Edition: Collapsible Masthead + Continuous Story Stream + Compact Single-Column Dossier Stack"
+}

@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #f7f5f0;
+    color: #1a1816;
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #f7f5f0;
+    color: #1a1816;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::selection {
+    background-color: #fde68a;
+    color: #1a1816;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, Georgia, serif;
+    color: #1a1816;
+    font-feature-settings: "palt" 1;
+  }
+}
+
+.gazette-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .gazette-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Double-line newspaper cuts */
+.border-double-cut {
+  border-bottom: 3px double #d6d1c7;
+}
+
+.border-double-cut-thick {
+  border-bottom: 4px double #1a1816;
+}
+
+.border-gazette {
+  border: 1px solid #d6d1c7;
+}
+
+/* Typography styles for article markdown */
+.gazette-prose {
+  color: #1a1816;
+  font-size: 1.0625rem;
+  line-height: 1.82;
+}
+
+.gazette-prose h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #1a1816;
+  position: relative;
+}
+
+.gazette-prose h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background-color: #b45309;
+}
+
+.gazette-prose h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  color: #92400e;
+}
+
+.gazette-prose p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.gazette-prose ul {
+  list-style-type: square;
+  padding-left: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.gazette-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.gazette-prose li {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.gazette-prose blockquote {
+  border-left: 3px solid #b45309;
+  background-color: #efece4;
+  padding: 0.75rem 1.25rem;
+  margin: 1.25rem 0;
+  font-style: normal;
+  color: #44403c;
+}
+
+.gazette-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9375rem;
+}
+
+.gazette-prose th, .gazette-prose td {
+  border: 1px solid #d6d1c7;
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+}
+
+.gazette-prose th {
+  background-color: #efece4;
+  font-weight: 700;
+  font-family: "Noto Serif SC", Georgia, serif;
+}
+
+.gazette-prose tr:nth-child(even) {
+  background-color: #fbfaf8;
+}
+
+.gazette-prose a {
+  color: #b45309;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.gazette-prose a:hover {
+  color: #92400e;
+  text-decoration-thickness: 2px;
+}

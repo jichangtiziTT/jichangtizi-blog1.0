@@ -1,0 +1,145 @@
+---
+import GazetteHeader from '../components/GazetteHeader.astro';
+import GazetteFooter from '../components/GazetteFooter.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  ogType?: 'website' | 'article';
+  publishedDate?: string;
+  updatedDate?: string;
+  canonicalUrl?: string;
+  noindex?: boolean;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+}
+
+const {
+  title,
+  description = '机场梯子 (jichangtizi.com) - 面向中国用户的网络加速服务调查公报与消费档案库。客观核验价格、专线线路与协议机制，坚持单月实测，坚决禁用虚构评测与横向PK。',
+  keywords = '机场选择指南,新手机场教程,机场梯子,IEPL专线,科学上网,Clash教程,机场避坑',
+  ogType = 'website',
+  publishedDate,
+  updatedDate,
+  canonicalUrl,
+  noindex = false,
+  breadcrumbs = []
+} = Astro.props;
+
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://jichangtizi.com';
+const currentPath = Astro.url.pathname;
+const canonical = canonicalUrl || `${siteUrl}${currentPath}`;
+const fullTitle = title.includes('机场梯子') ? title : `${title} ｜ 机场梯子 · 调查公报`;
+const ogImageUrl = `${siteUrl}/og-banner.svg`;
+
+// Structured Data: WebSite & Organization
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: '机场梯子',
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.svg`,
+  description: '面向普通网络消费者的机场与梯子工具规格资料检索站点。'
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '机场梯子',
+  url: siteUrl,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${siteUrl}/airports/?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  }
+};
+
+let articleSchema = null;
+if (ogType === 'article') {
+  articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description: description,
+    image: ogImageUrl,
+    datePublished: publishedDate || '2026-09-18',
+    dateModified: updatedDate || publishedDate || '2026-09-18',
+    author: {
+      '@type': 'Person',
+      name: '机场梯子编辑部'
+    },
+    publisher: organizationSchema,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonical
+    }
+  };
+}
+
+let breadcrumbSchema = null;
+if (breadcrumbs && breadcrumbs.length > 0) {
+  breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((b, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: b.name,
+      item: b.url.startsWith('http') ? b.url : `${siteUrl}${b.url}`
+    }))
+  };
+}
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="机场梯子" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    {publishedDate && <meta property="article:published_time" content={publishedDate} />}
+    {updatedDate && <meta property="article:modified_time" content={updatedDate} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    {articleSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    )}
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
+  </head>
+  <body class="bg-[#f7f5f0] text-[#1a1816]">
+    <GazetteHeader currentPath={currentPath} />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <GazetteFooter />
+  </body>
+</html>

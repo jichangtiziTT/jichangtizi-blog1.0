@@ -1,0 +1,414 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RecommendedAirportCard from '../components/RecommendedAirportCard.astro';
+import { getAllActiveAirports } from '../data/airports';
+import { getCollection } from 'astro:content';
+
+const activeAirports = getAllActiveAirports();
+const totalCount = activeAirports.length;
+
+// Primary recommendation: 隐形人 (Invisibles)
+const primaryAirport = activeAirports.find((a) => a.slug === 'yinxingren') || activeAirports[0];
+
+// 3 Alternative strategic recommendations from real database entries
+const alternativeSlugs = ['muguang', 'tiziyun', 'flyv'];
+const alternativeAirports = alternativeSlugs
+  .map((slug) => activeAirports.find((a) => a.slug === slug))
+  .filter((a): a is typeof primaryAirport => Boolean(a));
+
+// Featured 4 core guides from blog collection
+const allArticles = await getCollection('blog', ({ data }) => !data.draft);
+const guideSlugs = [
+  'how-to-choose-airport',
+  'airport-vs-vpn-difference',
+  'beginner-clash-guide',
+  'device-setup-guide'
+];
+const featuredGuides = guideSlugs
+  .map((slug) => allArticles.find((art) => art.slug === slug))
+  .filter((art): art is typeof allArticles[0] => Boolean(art));
+
+// 6 Structured Topic Cards (No keyword wall, clean 1-line description)
+const topicCards = [
+  {
+    title: '机场推荐与选购决策',
+    desc: '系统解析专线与公网、月付与年付差异，确立小额按月试用防跑路准则。',
+    href: '/blog/how-to-choose-airport/'
+  },
+  {
+    title: '便宜机场与价格防坑',
+    desc: '深度拆解低价年付超售陷阱，对比买断制不限时流量包与周期套餐优劣。',
+    href: '/blog/airport-pricing-traps/'
+  },
+  {
+    title: '机场节点与协议原理',
+    desc: '科普中转入口与落地链路，对比 Shadowsocks、VMess 与 Hysteria2 协议特性。',
+    href: '/blog/airport-node-concepts/'
+  },
+  {
+    title: 'Clash 客户端与订阅配置',
+    desc: '从零教学 Clash Verge Rev 订阅导入、规则分流、TUN 模式及连通性故障排除。',
+    href: '/blog/beginner-clash-guide/'
+  },
+  {
+    title: '专线网络与稳定性深度解析',
+    desc: '剖析 IEPL / IPLC 跨境内网专线物理光缆原理，揭秘晚高峰拥堵的底层成因。',
+    href: '/blog/iepl-iplc-line-guide/'
+  },
+  {
+    title: '手机梯子与跨平台实操',
+    desc: '覆盖 iOS Shadowrocket、安卓 Clash Meta 客户端选型与后台防杀优化技巧。',
+    href: '/blog/device-setup-guide/'
+  }
+];
+---
+
+<BaseLayout
+  title="2026 机场推荐与性价比机场选择指南 ｜ 便宜机场、机场节点与订阅资料 ｜ 机场梯子"
+  description="机场梯子整理主流机场价格、专线架构、客户端订阅与公开资料。先看本站重点推荐服务商，也可以按月付预算、Clash 客户端、AI 工具或流媒体需求进一步筛选。"
+  keywords="机场推荐,性价比机场,梯子工具,梯子推荐,机场节点,便宜机场,机场订阅,机场梯子"
+  breadcrumbs={[{ name: '首页', url: '/' }]}
+>
+  <div class="gazette-container py-6 sm:py-10">
+    <!-- ============================================================ -->
+    <!-- HERO SECTION: User-Oriented, Fast Decision Path              -->
+    <!-- ============================================================ -->
+    <section class="border-b-4 border-[#1a1816] pb-8 mb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+        <!-- Hero Left Column (Desktop 7 cols) -->
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 px-2 py-0.5 bg-[#b45309] text-white font-mono text-[11px] font-bold mb-3">
+            <span>2026 EDITION</span>
+            <span>·</span>
+            <span>机场推荐与选购指南</span>
+          </div>
+
+          <!-- Sole primary H1 for the page (HG-08 Compliant & User-Oriented) -->
+          <h1 class="text-2xl sm:text-4xl font-extrabold font-serif text-[#1a1816] leading-tight tracking-tight mb-3">
+            2026 机场推荐：先看这几家，再按需求筛选
+          </h1>
+
+          <p class="text-sm sm:text-base text-[#44403c] font-serif leading-relaxed mb-6">
+            整理全网 <strong class="font-mono text-[#b45309]">{totalCount}</strong> 家主流机场的公开套餐标价、专线架构、客户端订阅方式与公开资料。先看本站重点推荐服务商，也可以按月付预算、Clash 客户端、AI 工具或流媒体需求进一步筛选。
+          </p>
+
+          <!-- Hero CTAs (Desktop) -->
+          <div class="flex flex-wrap items-center gap-3 mb-6">
+            <a
+              href="#recommended-airports"
+              class="px-5 py-2.5 bg-[#b45309] text-white text-xs sm:text-sm font-serif font-bold hover:bg-[#92400e] transition-colors shadow-sm inline-flex items-center gap-1.5"
+            >
+              <span>查看本站推荐机场</span>
+              <span>&darr;</span>
+            </a>
+            <a
+              href="#quick-finder"
+              class="px-4 py-2.5 border-2 border-[#1a1816] bg-white text-[#1a1816] text-xs sm:text-sm font-serif font-bold hover:bg-[#efece4] transition-colors inline-flex items-center gap-1.5"
+            >
+              <span>按需求直接筛选</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+
+          <!-- Quick Trust Bullets (Hidden on mobile to optimize first-screen information density) -->
+          <div class="hidden sm:flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-stone-500 font-mono pt-3 border-t border-stone-200">
+            <span>✓ 已收录 {totalCount} 家机场资料</span>
+            <span>✓ 公开套餐与月付门槛核对</span>
+            <span>✓ 拒绝商业竞价排名天梯</span>
+          </div>
+        </div>
+
+        <!-- Hero Right Column / Mobile First Screen: Primary Recommended Airport Card -->
+        <div class="lg:col-span-5">
+          <div class="border-t-2 sm:border-t-0 border-[#b45309] pt-4 sm:pt-0">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-[#b45309]">
+                PRIMARY RECOMMENDATION · 本站主推
+              </span>
+              <span class="text-[10px] text-stone-400 font-mono">
+                含推广参数 · 非客观冠军
+              </span>
+            </div>
+            <RecommendedAirportCard
+              airport={primaryAirport}
+              isPrimary={true}
+              recommendationTag="本站主推"
+              recommendationNote="资料记录 IEPL 与 BGP 线路，并提及 AI 与流媒体支持，适合需要多设备协同订阅的用户。"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 1: RECOMMENDED AIRPORTS (Primary Focus)               -->
+    <!-- ============================================================ -->
+    <section id="recommended-airports" class="mb-12 scroll-mt-6">
+      <div class="border-b-2 border-[#1a1816] pb-3 mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+        <div>
+          <span class="text-[10px] font-mono font-bold tracking-widest text-[#b45309] uppercase block mb-1">
+            CURATED SELECTION · 精选名录
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold font-serif text-[#1a1816]">
+            本站重点推荐机场
+          </h2>
+        </div>
+        <p class="text-xs text-stone-500 font-serif max-w-lg leading-snug sm:text-right">
+          根据本站收录资料与不同使用需求整理，具体表现仍取决于地区、运营商与实际网络环境。
+        </p>
+      </div>
+
+      <!-- Small Commercial Disclosure Note -->
+      <div class="mb-4 text-[11px] text-stone-500 font-mono bg-[#efece4]/50 px-3 py-1.5 border border-stone-200">
+        * 部分服务商链接可能包含推广参数；本站推荐展示不等同于客观性能排名，建议优先选择月付试用。
+      </div>
+
+      <!-- Recommended Cards Grid: 1 Primary (Alternative view) + 3 Alternatives -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+        {alternativeAirports.map((airport) => {
+          let customNote = '';
+          let customTag = '精选推荐';
+          if (airport.slug === 'muguang') {
+            customTag = '预算入门选项';
+            customNote = '支持 Clash 与多平台通用订阅，适合预算敏感且偏向轻量日常浏览与办公场景的用户。';
+          } else if (airport.slug === 'tiziyun') {
+            customTag = '多协议月付方案';
+            customNote = '资料载明 VLESS 协议与自研客户端，同时支持通用订阅导入，适合偏好开箱即用的用户。';
+          } else if (airport.slug === 'flyv') {
+            customTag = 'IEPL 专线方案';
+            customNote = '资料载明 IEPL 内网专线并支持主流全平台订阅，适合注重跨境传输稳定性的用户。';
+          }
+          return (
+            <RecommendedAirportCard
+              airport={airport}
+              isPrimary={false}
+              recommendationTag={customTag}
+              recommendationNote={customNote}
+            />
+          );
+        })}
+      </div>
+
+      <!-- View All Airports Action -->
+      <div class="text-center pt-2">
+        <a
+          href="/airports/"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-[#1a1816] text-white hover:bg-[#b45309] text-xs sm:text-sm font-serif font-bold transition-colors shadow-sm"
+        >
+          <span>查看全部 {totalCount} 家已收录机场档案</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 2: QUICK FINDER (Decision Facilitator)                -->
+    <!-- ============================================================ -->
+    <section id="quick-finder" class="border border-[#d6d1c7] bg-white p-6 sm:p-8 mb-12 shadow-sm">
+      <div class="border-b-2 border-[#1a1816] pb-3 mb-5">
+        <span class="text-[10px] font-mono font-bold tracking-widest text-[#b45309] uppercase block mb-1">
+          FAST FILTER · 需求导航
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold font-serif text-[#1a1816]">
+          按你的需求找机场
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <!-- Option 1: Budget -->
+        <a
+          href="/airports/?price=budget"
+          class="group block p-3.5 border border-[#e7e3da] bg-[#faf8f5] hover:border-[#b45309] transition-colors"
+        >
+          <div class="flex items-center justify-between mb-1">
+            <strong class="font-serif font-bold text-sm text-[#1a1816] group-hover:text-[#b45309]">
+              预算优先
+            </strong>
+            <span class="text-xs text-[#b45309] font-mono font-bold">&rarr;</span>
+          </div>
+          <p class="text-xs text-stone-600 font-sans">
+            查看月付预算 ¥20 及以下的入门高性价比机场
+          </p>
+        </a>
+
+        <!-- Option 2: Dedicated Lines -->
+        <a
+          href="/airports/?line=iepl"
+          class="group block p-3.5 border border-[#e7e3da] bg-[#faf8f5] hover:border-[#b45309] transition-colors"
+        >
+          <div class="flex items-center justify-between mb-1">
+            <strong class="font-serif font-bold text-sm text-[#1a1816] group-hover:text-[#b45309]">
+              追求晚高峰稳定
+            </strong>
+            <span class="text-xs text-[#b45309] font-mono font-bold">&rarr;</span>
+          </div>
+          <p class="text-xs text-stone-600 font-sans">
+            查看资料标明采用纯 IEPL / IPLC 专线的机场
+          </p>
+        </a>
+
+        <!-- Option 3: Clash Users -->
+        <a
+          href="/airports/?client=clash"
+          class="group block p-3.5 border border-[#e7e3da] bg-[#faf8f5] hover:border-[#b45309] transition-colors"
+        >
+          <div class="flex items-center justify-between mb-1">
+            <strong class="font-serif font-bold text-sm text-[#1a1816] group-hover:text-[#b45309]">
+              Clash / Mihomo 用户
+            </strong>
+            <span class="text-xs text-[#b45309] font-mono font-bold">&rarr;</span>
+          </div>
+          <p class="text-xs text-stone-600 font-sans">
+            查看原生适配通用订阅与规则分流的机场
+          </p>
+        </a>
+
+        <!-- Option 4: AI & Streaming -->
+        <a
+          href="/blog/ai-and-streaming-network-requirements/"
+          class="group block p-3.5 border border-[#e7e3da] bg-[#faf8f5] hover:border-[#b45309] transition-colors"
+        >
+          <div class="flex items-center justify-between mb-1">
+            <strong class="font-serif font-bold text-sm text-[#1a1816] group-hover:text-[#b45309]">
+              AI 工具与流媒体
+            </strong>
+            <span class="text-xs text-[#b45309] font-mono font-bold">&rarr;</span>
+          </div>
+          <p class="text-xs text-stone-600 font-sans">
+            查看支持 ChatGPT、Claude 及海外流媒体解锁的专线指南
+          </p>
+        </a>
+
+        <!-- Option 5: Onetime Packages -->
+        <a
+          href="/airports/?type=onetime"
+          class="group block p-3.5 border border-[#e7e3da] bg-[#faf8f5] hover:border-[#b45309] transition-colors"
+        >
+          <div class="flex items-center justify-between mb-1">
+            <strong class="font-serif font-bold text-sm text-[#1a1816] group-hover:text-[#b45309]">
+              备用与不限时按量包
+            </strong>
+            <span class="text-xs text-[#b45309] font-mono font-bold">&rarr;</span>
+          </div>
+          <p class="text-xs text-stone-600 font-sans">
+            查看提供买断制流量不清零套餐的服务商
+          </p>
+        </a>
+
+        <!-- Option 6: Beginner Guide -->
+        <a
+          href="/blog/how-to-choose-airport/"
+          class="group block p-3.5 border border-[#e7e3da] bg-[#faf8f5] hover:border-[#b45309] transition-colors"
+        >
+          <div class="flex items-center justify-between mb-1">
+            <strong class="font-serif font-bold text-sm text-[#1a1816] group-hover:text-[#b45309]">
+              新手从零选购指南
+            </strong>
+            <span class="text-xs text-[#b45309] font-mono font-bold">&rarr;</span>
+          </div>
+          <p class="text-xs text-stone-600 font-sans">
+            阅读选机场决策框架、按月试用与防跑路要诀
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 3: EDITORIAL GUIDES (Key Reading Materials)           -->
+    <!-- ============================================================ -->
+    <section class="mb-12">
+      <div class="border-b-2 border-[#1a1816] pb-3 mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+        <div>
+          <span class="text-[10px] font-mono font-bold tracking-widest text-[#b45309] uppercase block mb-1">
+            INVESTIGATIVE ARTICLES · 精选指南
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold font-serif text-[#1a1816]">
+            新手必读：选购、协议与客户端实操指南
+          </h2>
+        </div>
+        <a href="/blog/" class="text-xs font-mono font-bold text-[#b45309] hover:underline">
+          查看全部 8 篇技术专刊 &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {featuredGuides.map((article) => (
+          <article class="border border-[#d6d1c7] bg-white p-4 sm:p-5 flex flex-col justify-between hover:border-[#b45309] transition-colors">
+            <div>
+              <div class="flex items-center justify-between text-[11px] font-mono text-stone-500 mb-2 pb-1 border-b border-stone-100">
+                <span class="px-1.5 py-0.5 bg-[#efece4] text-stone-700 font-serif font-bold">
+                  {article.data.category}
+                </span>
+                <span>{article.data.publishedDate}</span>
+              </div>
+              <h3 class="text-sm sm:text-base font-bold font-serif text-[#1a1816] leading-snug mb-2 hover:text-[#b45309] transition-colors">
+                <a href={`/blog/${article.slug}/`}>
+                  {article.data.title}
+                </a>
+              </h3>
+              <p class="text-xs text-stone-600 font-sans line-clamp-3 leading-relaxed mb-3">
+                {article.data.description}
+              </p>
+            </div>
+            <div class="pt-2 border-t border-stone-100">
+              <a
+                href={`/blog/${article.slug}/`}
+                class="text-xs font-serif font-bold text-[#b45309] hover:underline inline-flex items-center gap-1"
+              >
+                <span>阅读全文</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 4: TOPIC NAVIGATION (Clean 6 Topics, No Tag Walls)   -->
+    <!-- ============================================================ -->
+    <section class="border border-[#d6d1c7] bg-[#faf8f5] p-6 sm:p-8 mb-10">
+      <div class="border-b-2 border-[#1a1816] pb-3 mb-5">
+        <span class="text-[10px] font-mono font-bold tracking-widest text-[#b45309] uppercase block mb-1">
+          TOPIC INDEX · 主题导航
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold font-serif text-[#1a1816]">
+          全站核心主题导航
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {topicCards.map((topic) => (
+          <a
+            href={topic.href}
+            class="group block p-4 bg-white border border-[#d6d1c7] hover:border-[#b45309] transition-colors shadow-sm"
+          >
+            <h3 class="font-serif font-bold text-sm sm:text-base text-[#1a1816] group-hover:text-[#b45309] mb-1.5 flex items-center justify-between">
+              <span>{topic.title}</span>
+              <span class="text-xs text-[#b45309] font-mono">&rarr;</span>
+            </h3>
+            <p class="text-xs text-stone-600 font-sans leading-relaxed">
+              {topic.desc}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5: TRANSPARENCY & EDITORIAL DISCLOSURE BANNER        -->
+    <!-- ============================================================ -->
+    <section class="border-t-2 border-stone-300 pt-6 pb-2 text-center text-xs text-stone-600 font-serif">
+      <div class="max-w-2xl mx-auto space-y-2">
+        <p>
+          机场梯子致力于提供客观中立的机场收录档案与技术教程。本站不参与任何商业竞价天梯排名，具体线路表现因地区运营商而异。
+        </p>
+        <p class="font-mono text-[11px]">
+          <a href="/about/" class="text-[#b45309] hover:underline font-bold">
+            查看本站事实核验机制、资料来源与推广收益透明化披露 &rarr;
+          </a>
+        </p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

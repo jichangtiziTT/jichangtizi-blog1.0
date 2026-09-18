@@ -1,0 +1,20 @@
+{
+  "variant": "E05",
+  "theme": "Warm Antique Newsprint Paper (#f7f5f0)",
+  "primaryColorFamily": "Burnt Amber (#b45309) & Carbon Ink (#1a1816)",
+  "secondaryColorFamily": "Editorial Forest (#15803d) & Tinted Newsprint (#efece4)",
+  "headingTypefaceStyle": "Chinese Noto Serif SC / Source Han Serif with Newspaper Deck Style",
+  "bodyTypefaceStyle": "Chinese System Clean Sans-Serif (16.5px / 1.82 leading)",
+  "headerType": "Asymmetric Left Gazette Header with Top Dispatch Bar and Bureau Seal",
+  "heroType": "Front-Page Headline Deck + 3-Column Asymmetric Decision Gateway",
+  "homepageStructure": "Top Dispatch -> Asymmetric Masthead -> Front-Page Headline Deck -> Filter Desk -> Audited Dossier Index (Zero Compare) -> Investigation Guides -> Editorial Standards -> Bureau Impressum",
+  "cardGeometry": "Sharp 0px Rectangular Slab with Double-Hairline Cut Accent",
+  "borderRadius": "0px (Zero rounded corners)",
+  "airportPresentation": "Gazette Classifieds Dossier Cards & Audited Ledger Table (Zero Compare Feature)",
+  "tableStyle": "Linen Tint Zebra Ledger with Double-Hairline Header and Monospace Specs",
+  "articleLayout": "Left Rail Sticky TOC + 820px Broad Editorial Reading Line",
+  "tocStyle": "Left Column Numbered Gazette Section Rail",
+  "backgroundPattern": "Warm Antique Newsprint Canvas (#f7f5f0) without Grid or Noise Artifacts",
+  "informationDensity": "High-Clarity Investigative Journalism Density",
+  "motionStyle": "Subtle Linear Instant Transitions, Zero Bouncy Springs, Zero Glow"
+}

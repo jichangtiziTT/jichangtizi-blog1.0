@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('blog', ({ data }) => !data.draft);
+const sortedArticles = allArticles.sort(
+  (a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime()
+);
+
+const categories = ['全部', '选购指南', '基础科普', '技术拆解', '客户端教程', '实操手册', '进阶实战'];
+---
+
+<BaseLayout
+  title="调查专刊与技术文库 ｜ 机场推荐、性价比梯子、节点协议与客户端教程"
+  description="机场梯子调查编辑部出品。深度解析性价比机场选购指南、IEPL专线原理、传统VPN与梯子区别、Clash订阅与手机梯子配置教程。"
+  breadcrumbs={[
+    { name: '首页', url: '/' },
+    { name: '调查专刊', url: '/blog/' }
+  ]}
+>
+  <div class="gazette-container py-8 sm:py-12">
+    <!-- Header Box -->
+    <div class="border-b-4 border-[#1a1816] pb-6 mb-8">
+      <div class="inline-flex items-center gap-2 px-2 py-0.5 bg-[#b45309] text-white font-mono text-xs font-bold mb-3">
+        <span>INVESTIGATION LIBRARY</span>
+        <span>·</span>
+        <span>报社专刊文库</span>
+      </div>
+
+      <!-- Sole primary H1 for this page (HG-08) -->
+      <h1 class="text-2xl sm:text-4xl font-extrabold font-serif text-[#1a1816] tracking-tight mb-3">
+        调查专刊与技术文库：选购指南、协议拆解与避坑实务
+      </h1>
+
+      <p class="text-sm sm:text-base text-[#57534e] font-serif max-w-3xl leading-relaxed">
+        立足于计算机网络底层协议与普通消费者权益，提供客观、无商业诱导的深度分析长文。彻底拆解行业虚假宣传，帮助新手用户建立系统、理性的网络工具评估框架。
+      </p>
+    </div>
+
+    <!-- Category Filter Strip -->
+    <div class="flex items-center space-x-2 overflow-x-auto pb-3 mb-8 border-b border-[#d6d1c7] text-xs font-serif font-bold">
+      {categories.map((cat, idx) => (
+        <span class={`px-3 py-1.5 border ${idx === 0 ? 'bg-[#1a1816] text-white border-[#1a1816]' : 'bg-white text-stone-700 border-[#d6d1c7]'}`}>
+          {cat}
+        </span>
+      ))}
+    </div>
+
+    <!-- Article Stream Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sortedArticles.map((article, idx) => (
+        <article class="border border-[#d6d1c7] bg-white p-6 flex flex-col justify-between shadow-gazette relative">
+          <!-- Double Hairline Accent at bottom -->
+          <div class="absolute inset-x-0 bottom-0 h-1 border-b-2 border-double border-[#d6d1c7]"></div>
+
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-stone-500 mb-2 pb-1 border-b border-stone-100">
+              <span class="px-1.5 py-0.5 bg-[#efece4] text-stone-700 font-serif font-bold">
+                {article.data.category}
+              </span>
+              <span>{article.data.publishedDate}</span>
+            </div>
+
+            <h2 class="text-lg sm:text-xl font-bold font-serif text-[#1a1816] leading-snug mb-3 hover:text-[#b45309] transition-colors">
+              <a href={`/blog/${article.slug}/`}>
+                {article.data.title}
+              </a>
+            </h2>
+
+            <p class="text-xs text-[#57534e] leading-relaxed line-clamp-3 mb-4 font-sans">
+              {article.data.description}
+            </p>
+
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              {article.data.keywords.slice(0, 3).map((kw) => (
+                <span class="text-[11px] font-mono text-stone-500 bg-stone-50 px-1.5 py-0.5 border border-stone-200">
+                  #{kw}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-stone-200 flex items-center justify-between text-xs">
+            <span class="font-mono text-[#78716c]">专栏编号 № 0{idx + 1}</span>
+            <a
+              href={`/blog/${article.slug}/`}
+              class="font-serif font-bold text-[#b45309] hover:underline"
+            >
+              阅读完整专刊 &rarr;
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

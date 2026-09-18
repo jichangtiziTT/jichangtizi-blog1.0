@@ -1,0 +1,61 @@
+---
+const currentYear = 2026;
+---
+
+<footer class="mt-auto w-full bg-[#efece4] border-t-4 border-[#1a1816] pt-10 pb-8 text-[#1a1816] text-sm font-sans">
+  <div class="gazette-container">
+    <!-- Top Colophon Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#d6d1c7]">
+      <!-- Column 1: Bureau Identity -->
+      <div class="md:col-span-2">
+        <div class="flex items-center space-x-2 mb-2">
+          <span class="px-2 py-0.5 bg-[#1a1816] text-white text-xs font-mono font-bold">IMPRESSUM</span>
+          <span class="font-serif font-bold text-lg">机场梯子 · 调查报社公报</span>
+        </div>
+        <p class="text-xs text-[#57534e] leading-relaxed max-w-md">
+          立足于客观事实与公开技术资料的中文网络节点数据档案所。以新闻调查式的严谨态度梳理服务商套餐、线路机制与真实协议，坚决杜绝商业化打分天梯与虚构测速。
+        </p>
+        <div class="mt-4 text-xs text-[#78716c] font-mono leading-normal bg-white/60 p-2.5 border border-[#d6d1c7]">
+          <strong>推广收益披露 (Affiliate Disclosure)：</strong><br />
+          本站部分服务商链接可能包含推广参数。通过本站链接注册可能为本站带来维护佣金收益，但绝不会增加用户的任何实际购买价格。商业优先级仅用于内部系统调度，严禁伪装为客观评分或用户人气。
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Index -->
+      <div>
+        <h4 class="font-serif font-bold text-sm text-[#1a1816] mb-3 pb-1 border-b border-[#d6d1c7]">
+          版面索引
+        </h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="/" class="text-[#57534e] hover:text-[#b45309] hover:underline">头版要闻</a></li>
+          <li><a href="/airports/" class="text-[#57534e] hover:text-[#b45309] hover:underline">全量机场档案库</a></li>
+          <li><a href="/guides/how-to-choose-airport/" class="text-[#57534e] hover:text-[#b45309] hover:underline">新手选购决策指南</a></li>
+          <li><a href="/blog/" class="text-[#57534e] hover:text-[#b45309] hover:underline">调查专刊文库</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Standards & Bureau -->
+      <div>
+        <h4 class="font-serif font-bold text-sm text-[#1a1816] mb-3 pb-1 border-b border-[#d6d1c7]">
+          审查与合规
+        </h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="/about/" class="text-[#57534e] hover:text-[#b45309] hover:underline">事实核验方法论</a></li>
+          <li><a href="/about/#ethics" class="text-[#57534e] hover:text-[#b45309] hover:underline">编辑部回避准则</a></li>
+          <li><a href="/contact/" class="text-[#57534e] hover:text-[#b45309] hover:underline">数据勘误与联络</a></li>
+          <li><span class="text-stone-400 font-mono">严格禁用多服务商横向评测</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright & Truth Statement -->
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#78716c] font-mono">
+      <div>
+        &copy; {currentYear} 机场梯子 (jichangtizi.com). 保留所有事实核验档案权利.
+      </div>
+      <div class="text-center sm:text-right">
+        <span>原则：未知即未知 (UNKNOWN IS UNKNOWN) · 坚决拒绝编造测速</span>
+      </div>
+    </div>
+  </div>
+</footer>
