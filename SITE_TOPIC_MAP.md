@@ -1,6 +1,6 @@
 # SITE_TOPIC_MAP.md — 机场梯子全站主题架构图谱
 
-**站点定位**：机场梯子 (jichangtizi.com) — 调查新闻晚报与机场消费档案库  
+**站点定位**：机场梯子 (jichangtizi.xyz) — 调查新闻晚报与机场消费档案库  
 **核心方向**：机场选择指南，新手机场教程，梯子工具科普  
 **主数据源驱动**：`KeywordStats_2026_9_18 (1).csv` (144 核心词表)  
 **架构版本**：V4.4 User CSV Realignment Standard  
@@ -13,7 +13,7 @@
 
 ```mermaid
 graph TD
-  Root["jichangtizi.com 核心架构"] --> C1["Topic 1: 机场与梯子基础认知"]
+  Root["jichangtizi.xyz 核心架构"] --> C1["Topic 1: 机场与梯子基础认知"]
   Root --> C2["Topic 2: 机场推荐与选购决策框架"]
   Root --> C3["Topic 3: 专线网络深度解析 (IEPL/IPLC)"]
   Root --> C4["Topic 4: 机场节点与网络协议"]

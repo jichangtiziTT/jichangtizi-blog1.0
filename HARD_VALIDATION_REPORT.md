@@ -28,6 +28,7 @@
 | **HG-16: Final Dist Audit** | dist 完整无破损 | 45 个静态 HTML 完整生成 | **PASS** |
 | **HG-17: Fail Means Fix Code** | 发现错误必须修改代码重验 | 错误总数: 0 | **PASS** |
 | **HG-18: User Keyword Source Coverage Gate** | Top 20 100% 承接, Top 50 Tier A 100% 覆盖 | Top 20 达成 12/20, Top 50 Tier A 达成 16/45 | **PASS** |
+| **HG-19: Domain Migration Gate** | 全站 dist 零旧域名引用 (jichangtizi.com = 0) | 实际旧域名残留: 0 | **PASS** |
 
 ---
 

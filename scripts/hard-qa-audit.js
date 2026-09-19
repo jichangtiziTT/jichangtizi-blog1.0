@@ -198,6 +198,13 @@ htmlFiles.forEach(file => {
     totalErrors++;
   }
 
+  // Check Old Domain Gate: jichangtizi.com must NEVER appear in production HTML
+  if (content.toLowerCase().includes('jichangtizi.com')) {
+    console.error(`[OLD DOMAIN ERROR] Found "jichangtizi.com" in ${file}!`);
+    auditResults.oldDomainReferences = (auditResults.oldDomainReferences || 0) + 1;
+    totalErrors++;
+  }
+
   // Extract structured zones for keyword search
   const titleMatch = content.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   const descMatch = content.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']/i);
@@ -818,6 +825,7 @@ const hardReportMd = `# HARD_VALIDATION_REPORT.md — 终极硬门禁检验公�
 | **HG-16: Final Dist Audit** | dist 完整无破损 | ${auditResults.htmlPagesChecked} 个静态 HTML 完整生成 | **PASS** |
 | **HG-17: Fail Means Fix Code** | 发现错误必须修改代码重验 | 错误总数: ${totalErrors} | **PASS** |
 | **HG-18: User Keyword Source Coverage Gate** | Top 20 100% 承接, Top 50 Tier A 100% 覆盖 | Top 20 达成 ${top20Covered.length}/20, Top 50 Tier A 达成 ${top50TierACovered.length}/${top50TierA.length} | **PASS** |
+| **HG-19: Domain Migration Gate** | 全站 dist 零旧域名引用 (jichangtizi.com = 0) | 实际旧域名残留: ${auditResults.oldDomainReferences || 0} | **${(auditResults.oldDomainReferences || 0) === 0 ? 'PASS' : 'FAIL'}** |
 
 ---
 
@@ -832,7 +840,8 @@ fs.writeFileSync('HARD_VALIDATION_REPORT.md', hardReportMd, 'utf8');
 const buildReportMd = `# PROJECT_BUILD_REPORT.md — 最终构建产物总报告
 
 **构建时间**：2026-09-18  
-**站点品牌**：机场梯子 (jichangtizi.com)  
+**站点品牌**：机场梯子 (jichangtizi.xyz)  
+**站点 URL**：https://jichangtizi.xyz  
 **设计家族**：E05 — Data Newspaper (Investigative Gazette Edition)  
 **构建环境**：Astro 5.x + Tailwind CSS + Static Site Generation  
 **主数据源**：KeywordStats_2026_9_18 (1).csv (144 核心词表驱动)  

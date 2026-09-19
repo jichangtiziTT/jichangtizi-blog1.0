@@ -22,7 +22,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/beginner-clash-guide/"
+canonical: "https://jichangtizi.xyz/blog/beginner-clash-guide/"
 faq:
   - question: "原版 Clash for Windows 停止维护后，新手目前推荐使用哪款客户端？"
     answer: "目前开源社区中推荐度最高的是开源、活跃维护的 Clash Verge Rev 或 Sing-box。Clash Verge Rev 基于现代跨平台界面构建，底层采用功能强劲的开源 Mihomo（Clash.Meta）内核，对新协议支持完善且界面简洁。"

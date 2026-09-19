@@ -21,7 +21,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/iepl-iplc-line-guide/"
+canonical: "https://jichangtizi.xyz/blog/iepl-iplc-line-guide/"
 faq:
   - question: "IEPL 与 IPLC 专线在技术层面究竟有什么区别？"
     answer: "IPLC（International Private Leased Circuit）是传统的跨国物理层专线电路；IEPL（International Ethernet Private Line）则是基于二层以太网技术的虚拟专线。在日常跨境加速体验中，两者的本质特征一致——均通过点对点封闭内网传输，不经过公网国际出口，体验上无显著优劣之分。"

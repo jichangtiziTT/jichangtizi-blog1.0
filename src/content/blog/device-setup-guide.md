@@ -22,7 +22,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/device-setup-guide/"
+canonical: "https://jichangtizi.xyz/blog/device-setup-guide/"
 faq:
   - question: "一个机场订阅可以在多台设备（手机和电脑）上同时使用吗？"
     answer: "多数服务商允许在多台个人设备上导入同一条订阅链接，但各套餐往往会对“同时在线设备数（或 IP 连接数）”做出明确限制（部分服务商通常限制在 2 至 5 台，也有少数不限设备）。若超过设备上限，后接入的设备可能会被服务商服务端临时断流拦截。"

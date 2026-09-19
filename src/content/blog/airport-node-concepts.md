@@ -22,7 +22,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/airport-node-concepts/"
+canonical: "https://jichangtizi.xyz/blog/airport-node-concepts/"
 faq:
   - question: "日常所称的“机场节点”和“代理节点”究竟是指什么？"
     answer: "机场节点本质上是由服务商部署在海外机房（如香港、日本、新加坡、美国）并经过网络调优的代理服务器入口。客户端通过加密协议将本地网络流量中继到该服务器，再由该服务器代为向目标网站发起请求并回传数据，实现跨地域网络加速与访问。"

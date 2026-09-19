@@ -22,7 +22,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/ai-and-streaming-network-requirements/"
+canonical: "https://jichangtizi.xyz/blog/ai-and-streaming-network-requirements/"
 faq:
   - question: "为什么已经开启了代理，打开 ChatGPT 依然提示 Access Denied 或 1020 报错？"
     answer: "OpenAI 部署了极其严格的 Cloudflare 防护与 IP 信誉库审查。绝大多数数据中心（Datacenter）机房 IP 会被直接列入黑名单。此外，如果浏览器语言、系统时区或 DNS 解析依然指向中国大陆，也会因环境不一致被触发拦截。"

@@ -22,7 +22,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/airport-pricing-traps/"
+canonical: "https://jichangtizi.xyz/blog/airport-pricing-traps/"
 faq:
   - question: "不限时流量包（按量计费）相比周期月付套餐有哪些明显优势？"
     answer: "不限时流量包的最大特点是“流量不按月清零，用完为止”，非常适合出差备用、低频查阅文献或仅偶尔登录海外账号的轻度用户。无需承担每月的固定续费支出，资金沉没成本较低。"

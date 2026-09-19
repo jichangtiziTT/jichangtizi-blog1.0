@@ -23,7 +23,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/airport-vs-vpn-difference/"
+canonical: "https://jichangtizi.xyz/blog/airport-vs-vpn-difference/"
 faq:
   - question: "平时口语常说的“VPN”和真正的 VPN 协议是一回事吗？"
     answer: "通常不是一回事。中文口语常将一切跨境网络工具笼统泛称为 VPN，但在计算机网络专业定义中，VPN（虚拟专用网，如 WireGuard、OpenVPN、IPsec）旨在建立加密隧道将远程设备接入内部局域网。而日常使用的机场节点属于基于 Socks5/HTTP 拓展的代理（Proxy）协议。"

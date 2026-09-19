@@ -17,7 +17,7 @@ interface Props {
 
 const {
   title,
-  description = '机场梯子 (jichangtizi.com) - 面向中国用户的网络加速服务调查公报与消费档案库。客观核验价格、专线线路与协议机制，坚持单月实测，坚决禁用虚构评测与横向PK。',
+  description = '机场梯子 (jichangtizi.xyz) - 面向中国用户的网络加速服务调查公报与消费档案库。客观核验价格、专线线路与协议机制，坚持单月实测，坚决禁用虚构评测与横向PK。',
   keywords = '机场选择指南,新手机场教程,机场梯子,IEPL专线,科学上网,Clash教程,机场避坑',
   ogType = 'website',
   publishedDate,
@@ -27,7 +27,7 @@ const {
   breadcrumbs = []
 } = Astro.props;
 
-const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://jichangtizi.com';
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://jichangtizi.xyz';
 const currentPath = Astro.url.pathname;
 const canonical = canonicalUrl || `${siteUrl}${currentPath}`;
 const fullTitle = title.includes('机场梯子') ? title : `${title} ｜ 机场梯子 · 调查公报`;

@@ -1,4 +1,4 @@
-# DESIGN_DNA.md — 机场梯子 (jichangtizi.com)
+# DESIGN_DNA.md — 机场梯子 (jichangtizi.xyz)
 
 ## 1. Project Positioning
 - **定位**：面向中国普通网络用户与新手消费者的“调查新闻晚报与机场消费档案库”（Investigative Gazette & Consumer Dossier Bureau）。

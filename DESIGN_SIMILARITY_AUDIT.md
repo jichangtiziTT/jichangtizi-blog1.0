@@ -1,6 +1,6 @@
 # DESIGN_SIMILARITY_AUDIT.md — 视觉相似度审查公报
 
-**当前项目**：机场梯子 (jichangtizi.com)  
+**当前项目**：机场梯子 (jichangtizi.xyz)  
 **设计家族**：E05 — Data Newspaper (Investigative Gazette Edition)  
 **审查时间**：2026-09-18  
 **门禁阈值**：与任意历史项目在 12 项视觉维度中，重合数必须 **< 5 / 12**。

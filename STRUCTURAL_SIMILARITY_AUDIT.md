@@ -1,6 +1,6 @@
 # STRUCTURAL_SIMILARITY_AUDIT.md — 结构相似度审查公报
 
-**当前项目**：机场梯子 (jichangtizi.com)  
+**当前项目**：机场梯子 (jichangtizi.xyz)  
 **设计家族**：E05 — Data Newspaper (Investigative Gazette & Dossier Bureau)  
 **审查时间**：2026-09-18  
 **门禁阈值**：与任意历史项目在 16 项结构维度中，重合数必须 **< 5 / 16**。若 ≥ 5 则判定为 STRUCTURALLY_TOO_SIMILAR 并触发熔断。

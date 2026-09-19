@@ -1,6 +1,6 @@
 # SITE_KEYWORD_MAP.md — 机场梯子全站关键词规划总表
 
-**站点正式域名**：https://jichangtizi.com  
+**站点正式域名**：https://jichangtizi.xyz  
 **核心方向**：机场选择指南，新手机场教程，梯子工具科普  
 **主数据源**：`KeywordStats_2026_9_18 (1).csv` (144 核心词表)  
 **架构版本**：V4.4 User CSV Realignment Standard  

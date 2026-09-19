@@ -22,7 +22,7 @@ updatedDate: "2026-09-18"
 author: "机场梯子调查编辑部"
 draft: false
 noindex: false
-canonical: "https://jichangtizi.com/blog/how-to-choose-airport/"
+canonical: "https://jichangtizi.xyz/blog/how-to-choose-airport/"
 faq:
   - question: "新手第一次购买机场，最关键的注意事项是什么？"
     answer: "最重要的原则是尽量选择支持按月付费的周期套餐，严禁盲目直接购买大额年付或多年付套餐。通过单月使用，在晚高峰（20:00-23:00）亲自验证网络连通性与本地运营商适配程度后再决定是否续费。"

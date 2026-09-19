@@ -1,7 +1,8 @@
 # PROJECT_BUILD_REPORT.md — 最终构建产物总报告
 
 **构建时间**：2026-09-18  
-**站点品牌**：机场梯子 (jichangtizi.com)  
+**站点品牌**：机场梯子 (jichangtizi.xyz)  
+**站点 URL**：https://jichangtizi.xyz  
 **设计家族**：E05 — Data Newspaper (Investigative Gazette Edition)  
 **构建环境**：Astro 5.x + Tailwind CSS + Static Site Generation  
 **主数据源**：KeywordStats_2026_9_18 (1).csv (144 核心词表驱动)  
