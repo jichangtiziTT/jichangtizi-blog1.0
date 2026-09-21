@@ -47,6 +47,16 @@ const sitemapIndexPath = path.join(distDir, 'sitemap-index.xml');
 const sitemap0Path = path.join(distDir, 'sitemap-0.xml');
 if (fs.existsSync(sitemapIndexPath) || fs.existsSync(sitemap0Path)) {
   auditResults.sitemapExists = true;
+  // Check that sitemap files contain ZERO /go/ URLs
+  [sitemapIndexPath, sitemap0Path].forEach(smPath => {
+    if (fs.existsSync(smPath)) {
+      const smContent = fs.readFileSync(smPath, 'utf8');
+      if (smContent.includes('/go/')) {
+        console.error(`[SITEMAP ERROR] ${path.basename(smPath)} contains forbidden /go/* URLs! Sitemaps must exclude redirect routes.`);
+        totalErrors++;
+      }
+    }
+  });
 } else {
   console.error('[FAIL] dist sitemap file does not exist!');
   totalErrors++;
